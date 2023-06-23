@@ -69,12 +69,12 @@ const Cards = ({ data }) => {
         </div>
       </div>
       <div>
-        <div className="grid gap-10 justify-center items-center mt-10 w-9/12 mx-auto sm:grid-cols-2 md:grid-cols-3">
+        <div className="grid gap-10 justify-center items-center mt-10 w-9/12 mx-auto sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
           {visibleData.length > 0 ? (
             visibleData.map((item) => <GameCard item={item} key={item.id} />)
           ) : (
             <div className="text-white text-center py-20">
-              <p>No items found 🤔.</p>
+              <p>I promise, I'm trying to find them 😘.</p>
             </div>
           )}
         </div>

@@ -100,7 +100,7 @@ export default function Account() {
     )
   }
 
-  if (!storageUser) {
+  if (!user) {
     return <AccountRedirect />;
   }
   return (

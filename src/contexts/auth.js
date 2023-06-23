@@ -97,6 +97,8 @@ function AuthProvider({ children }) {
     await signOut(auth);
     localStorage.removeItem('SistemaUser');
     setUser(null);
+    toast.success("Goodbye...");
+    router.push("/");
   }
 
   return (
