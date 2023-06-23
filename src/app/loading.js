@@ -15,7 +15,7 @@ export default function Loading() {
         </div>
       </main>
       <footer className="text-white font-bold text-sm mt-4 px-2">
-      Evil is evil. Lesser, greater, middling, it's all the same. If I have to choose between one evil and another, then I prefer not to choose at all.
+      Evil is evil. Lesser, greater, middling, its all the same. If I have to choose between one evil and another, then I prefer not to choose at all.
         <h1 className='text-blue-500 text-center'>Geralt of Rivia, The Witcher 3: Wild Hunt</h1>
       </footer>
     </div>

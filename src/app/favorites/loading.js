@@ -15,7 +15,7 @@ export default function Loading() {
         </div>
       </main>
       <footer className="text-white font-bold text-sm mt-4 px-2">
-      It's dangerous to go alone! Take this.
+      Its dangerous to go alone! Take this.
        <h1 className='text-red-600 text-center'>The Legend of Zelda</h1>
       </footer>
     </div>
