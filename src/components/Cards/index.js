@@ -1,11 +1,11 @@
-import { useMemo, useRef, useState } from 'react';
+import Link from 'next/link';
+import { useMemo, useState } from 'react';
 import { AiFillCloseCircle, AiOutlineArrowUp } from 'react-icons/ai';
 import { IoListCircleOutline } from 'react-icons/io5';
-import { GameCard } from '../gameCards';
 import { GenreFilter } from '../Filter';
 import { Partciles } from '../Particles';
 import SearchComponent from '../Search';
-import Link from 'next/link';
+import { GameCard } from '../gameCards';
 
 const Cards = ({ data }) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -19,8 +19,7 @@ const Cards = ({ data }) => {
     if (searchTerm) {
       updatedData = updatedData.filter(
         (item) =>
-          item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          item.developer.toLowerCase().includes(searchTerm.toLowerCase())
+          item.title.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
     if (selectedGenre !== 'all') {
