@@ -28,7 +28,7 @@ function AuthProvider({ children }) {
     loadStorage();
   }, []);
 
-  // User Sign-In
+
   async function signIn(email, password) {
     setLoadingAuth(true);
 
@@ -79,7 +79,7 @@ function AuthProvider({ children }) {
       setUser(data);
       storageUser(data);
       setLoadingAuth(false);
-      toast.success('Welcome to the platform!');
+      toast.success('Welcome to platform!');
       router.push('/login')
     } catch (error) {
       console.log(error);

@@ -3,11 +3,11 @@ import HasError from '@/app/hasError';
 import Header from '@/components/Header';
 import { AuthContext } from '@/contexts/auth';
 import { DataContext } from '@/contexts/data';
+import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { useContext, useState } from 'react';
 import { FiArrowLeft, FiHeart } from 'react-icons/fi';
 import { toast } from 'react-toastify';
-import { motion } from 'framer-motion';
 
 export default function Games({ params }) {
   const { data, hasError } = useContext(DataContext);
@@ -75,11 +75,11 @@ export default function Games({ params }) {
             <div className='flex w-full justify-center items-center gap-4'>
               <button className="flex items-center bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4" onClick={handleGoBack}>
                 <FiArrowLeft className="mr-2" />
-                Voltar
+                Back
               </button>
               <button className="flex items-center bg-red-600 hover:bg-red-500 text-white font-bold py-2 px-4 rounded mt-4" onClick={addFavorite}>
                 <FiHeart className="mr-2" />
-                Favoritar
+                Favorite
               </button>
             </div>
             {
