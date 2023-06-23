@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:wght@100;400&display=swap');
+
+html {
+  scroll-behavior: smooth !important;
+}
+
+body {
+  background-color: #060623;
+  color: white !important;
+  font-family: 'Fira Sans', sans-serif !important;
+}
+
+@font-face {
+  font-family: 'Ttoctosquares';
+  src: url('/fonts/ttoctosquares.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+h1, button, a {
+  font-family: 'Ttoctosquares', sans-serif !important;
+}
+.card{
+background: rgba(197, 197, 197, 0.19);
+box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+backdrop-filter: blur(5px);
+-webkit-backdrop-filter: blur(5px);
+background-clip: padding-box;
+overflow: hidden;
+
+}
+
