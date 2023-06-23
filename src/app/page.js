@@ -41,7 +41,7 @@ export default function Home() {
                 </span>
               </div>
             </div>
-            <Cards data={data} loading={loading} />
+            <Cards data={data}  />
           </main>
 
         </div>
