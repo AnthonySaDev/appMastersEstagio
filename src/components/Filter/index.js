@@ -8,7 +8,7 @@ export const GenreFilter = ({ selectedGenre, handleFilter, genres, isOpen }) => 
         animate={{ y: 0 }}
         exit={{ y: 200 }}
         transition={{ duration: 0.5 }}
-        className={`grid grid-cols-2 filter rounded-b-lg items-center gap-2 pb-2 px-2`}
+        className={`grid grid-cols-2 filter rounded-lg items-center gap-2 pb-2 px-2`}
       >
       <div
         className={`text-white cursor-pointer hover:text-[#7cbcff] text-sm py-2 px-3 text-center focus:outline-none ${selectedGenre === 'all' ? 'bg-blue-900' : 'transparent'
