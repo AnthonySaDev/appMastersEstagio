@@ -23,20 +23,20 @@ export const GameCard = ({ item }) => {
               <h1 className="md:text-xl text-sm font-extrabold text-center">{item.title}</h1>
               <div className="w-full  flex flex-col gap-3 text-zinc-300">
                 <span className="font-semibold pl-3 flex items-center gap-2">
-                  <p className="text-white">Genre: </p>
-                  <p className="font-thin text-white text-xs ">{item.genre}</p>
+                  <p className="text-white lg:text-lg">Genre: </p>
+                  <p className="font-thin text-white text-xs lg:text-base ">{item.genre}</p>
                 </span>
                 <span className="font-semibold pl-3 flex items-center gap-2">
-                  <p className="text-white">Platform:</p>
-                  <p className="font-thin text-white text-xs">{item.platform}</p>
+                  <p className="text-white lg:text-lg">Platform:</p>
+                  <p className="font-thin text-white text-xs lg:text-base">{item.platform}</p>
                 </span>
                 <span className="font-semibold pl-3 flex items-center gap-2">
-                  <p className="text-white">Developer: </p>
-                  <p className="font-thin text-white text-xs">{item.developer}</p>
+                  <p className="text-white lg:text-lg">Developer: </p>
+                  <p className="font-thin text-white text-xs lg:text-base">{item.developer}</p>
                 </span>
                 <span className="font-semibold pl-3 flex items-center gap-2">
-                  <p className="text-white">Release date: </p>
-                  <p className="font-thin text-white text-xs">{item.release_date}</p>
+                  <p className="text-white lg:text-lg">Release date: </p>
+                  <p className="font-thin text-white text-xs lg:text-base">{item.release_date}</p>
                 </span>
   
                 <Link href={`/games/${item.id}`} className="flex font-bold mt-2 gap-4 items-center justify-center w-fit mx-auto py-3 px-6 bg-gradient-to-r from-pink-600 to-purple-800 text-white rounded-lg shadow hover:bg-purple-400 hover:brightness-125 transition-all duration-700">
