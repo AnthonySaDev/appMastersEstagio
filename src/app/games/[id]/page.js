@@ -50,11 +50,11 @@ export default function Games({ params }) {
   }
 
   return (
-    <div className="font-sans filter">
-      <div className="flex h-fit md:h-screen md:max-w-10/12 mx-auto mb:pb-0  flex-col md:flex-col-reverse items-center justify-center">
+    <div className="font-sans">
+      <div className="flex h-fit md:h-screen md:max-w-10/12 mx-auto mb:pb-0 bg-transparent flex-col md:flex-col-reverse items-center justify-center">
         <Header />
         {filteredData.map((item) => (
-          <div key={item.id} className="rounded-lg p-8 mt-20 h-fit flex flex-col animate-fade-in-down">
+          <div key={item.id} className="rounded-lg bg-transparent p-8 mt-20 h-fit flex flex-col animate-fade-in-down">
             <img src={item.thumbnail} alt={item.title} className="mx-auto h-auto object-cover" />
             <div>
               <h1 className="text-4xl font-semibold text-yellow-400 text-center my-4">{item.title}</h1>
