@@ -119,7 +119,7 @@ export default function Cards({ data }) {
                 <Image src={borda} className='w-full h-full object-cover brightness-150 shadow-2xl' />
                 <div className='absolute bg-transparent top-0 left-0 w-full h-full'>
                   <div className='p-5 flex flex-col justify-between h-full'>
-                    <img src={item.thumbnail} alt={item.title} className="w-full h-auto object-cover mb-6 " />
+                    <img src={item.thumbnail} alt={item.title} className="w-full h-auto object-cover mb-4 " />
                     <div className='flex flex-col h-full pb-3 justify-evenly'>
                       <h1 className="md:text-xl text-sm font-extrabold text-center">{item.title}</h1>
                       <div className='w-full  flex flex-col gap-3 text-zinc-300'>
