@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
-import Head from 'next/head';
 export default function SearchComponent({ onSearch }) {
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -21,7 +20,7 @@ export default function SearchComponent({ onSearch }) {
                 onChange={handleSearch} 
                 type="text" 
                 id="name" 
-                className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border border-zinc-600 appearance-none dark:text-white dark:border-zinc-500 dark:focus:border-pink-600 focus:outline-none focus:ring-0 focus:border-pink-600 peer" placeholder=" " />
+                className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-white bg-transparent rounded-lg border border-zinc-600 appearance-none  dark:border-zinc-500 dark:focus:border-pink-600 focus:outline-none focus:ring-0 focus:border-pink-600 peer" placeholder=" " />
               
               <label 
               className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-[#060623] px-2 peer-focus:px-2 peer-focus:text-pink-600 peer-focus:dark:text-pink-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Search</label>

@@ -1,17 +1,20 @@
+'use client'
 import Link from 'next/link';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { AiFillCloseCircle, AiOutlineArrowUp } from 'react-icons/ai';
 import { IoListCircleOutline } from 'react-icons/io5';
 import { GenreFilter } from '../Filter';
 import { Partciles } from '../Particles';
 import SearchComponent from '../Search';
 import { GameCard } from '../gameCards';
+import CardSkeleton from '../CardSkeleton';
 
 const Cards = ({ data }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [selectedGenre, setSelectedGenre] = useState('all');
+  const [isLoading, setIsLoading] = useState(true);
   const itemsPerPage = 6;
 
   const filteredData = useMemo(() => {
@@ -45,16 +48,34 @@ const Cards = ({ data }) => {
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const visibleData = useMemo(() => filteredData.slice(0, endIndex), [filteredData, endIndex]);
+  const visibleData = useMemo(() => filteredData.slice(0, endIndex), [
+    filteredData,
+    endIndex,
+  ]);
   const genres = Array.from(new Set(data.map((item) => item.genre)));
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
-    <div  className="md:py-28 py-10" id="games">
+    <div className="md:py-28 py-10" id="games">
       <Partciles />
       <div className="flex justify-center relative items-end">
         <SearchComponent onSearch={handleSearch} />
-        <div className="cursor-pointer filter rounded-full p-2 " onClick={() => setIsOpen(!isOpen)}>
-          {isOpen ? <AiFillCloseCircle size={25} /> : <IoListCircleOutline size={25} />}
+        <div
+          className="cursor-pointer filter rounded-full p-2 "
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          {isOpen ? (
+            <AiFillCloseCircle size={25} />
+          ) : (
+            <IoListCircleOutline size={25} />
+          )}
         </div>
         <div className="absolute top-[8.9rem] z-20">
           {isOpen && (
@@ -69,13 +90,19 @@ const Cards = ({ data }) => {
       </div>
       <div>
         <div className="grid gap-10 justify-center items-center mt-10 w-9/12 mx-auto sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-          {visibleData.length > 0 ? (
-            visibleData.map((item) => <GameCard item={item} key={item.id} />)
-          ) : (
-            <div className="text-white text-center py-20">
-              <p>I promise, Im trying to find them 😣.</p>
-            </div>
-          )}
+          {isLoading
+            ? Array.from({ length: itemsPerPage }).map((_, index) => (
+                <CardSkeleton key={index} />
+              ))
+            : visibleData.length > 0 ? (
+                visibleData.map((item) => (
+                  <GameCard item={item} key={item.id} />
+                ))
+              ) : (
+                <div className="text-white text-center py-20">
+                  <p>I promise, Im trying to find them 😘.</p>
+                </div>
+              )}
         </div>
       </div>
       <div className="flex justify-center items-center relative mt-5">
@@ -87,7 +114,10 @@ const Cards = ({ data }) => {
             Load More
           </button>
         )}
-        <Link href="#games" className="absolute animate-bounce md:right-10 right-1 bg-blue-500 text-white rounded-full p-2 shadow hover:bg-blue-400  transition-all duration-700">
+        <Link
+          href="#games"
+          className="absolute animate-bounce md:right-10 right-1 bg-blue-500 text-white rounded-full p-2 shadow hover:bg-blue-400  transition-all duration-700"
+        >
           <AiOutlineArrowUp size={30} />
         </Link>
       </div>
