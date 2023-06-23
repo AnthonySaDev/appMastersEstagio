@@ -40,7 +40,7 @@ export default function Games({ params }) {
 
 
   const handleGoBack = () => {
-    router.psuh('/#games');
+    router.push('/#games');
   };
 
   if (hasError) {
