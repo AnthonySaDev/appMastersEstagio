@@ -1,6 +1,7 @@
+'use client'
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
-import { FaHeart, FaHome, FaPersonBooth } from 'react-icons/fa';
+import { FaHeart, FaHome } from 'react-icons/fa';
 import {BsPersonFill} from 'react-icons/bs'
 import {IoGameController} from 'react-icons/io5'
 import Link from 'next/link';
@@ -53,7 +54,7 @@ export default function Header() {
               HOME
             </p>
           </Link>
-          <Link href='#games' className="hover:text-[#1b1a55] transition-colors duration-300 w-fit whitespace-nowrap flex items-center gap-2">
+          <Link href='#games' className="hover:text-pink-600 transition-colors duration-300 w-fit whitespace-nowrap flex items-center gap-2">
           <IoGameController size={25}/>
             <p className=" cursor-pointer ">
               GAMES
@@ -126,7 +127,7 @@ export default function Header() {
               HOME
             </p>
           </Link>
-          <Link href='/#games' className="hover:text-[#1b1a55] transition-colors duration-300 w-fit whitespace-nowrap flex items-center gap-2">
+          <Link href='/#games' className="hover:text-pink-600 transition-colors duration-300 w-fit whitespace-nowrap flex items-center gap-2">
           <IoGameController size={25}/>
             <p className=" cursor-pointer ">
               GAMES

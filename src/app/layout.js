@@ -2,6 +2,8 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './globals.css';
 import Head from 'next/head';
+import AuthProvider from '@/contexts/auth';
+import DataProvider from '@/contexts/data';
 export const metadata = {
   title: 'App Masters',
   description: 'Exame para Vaga de Estágio',
@@ -9,6 +11,8 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
+    <AuthProvider>
+      <DataProvider>
     <html lang="en">
       <Head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -39,5 +43,7 @@ export default function RootLayout({ children }) {
         />
       </body>
     </html>
+    </DataProvider>
+    </AuthProvider>
   );
 }

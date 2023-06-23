@@ -1,140 +1,143 @@
 'use client'
-import React, { useState, useEffect } from 'react';
-import { collection, doc, updateDoc, query, where, getDocs } from 'firebase/firestore';
-import { db } from '@/services/firebaseConnection';
-import { toast } from 'react-toastify';
-import AccountRedirect from '@/components/AccountRedirect';
-import Loading from '../loading';
+import AccountRedirect from '@/app/AccountRedirect';
 import Header from '@/components/Header';
+import { AuthContext } from '@/contexts/auth';
+import { DataContext } from '@/contexts/data';
+import { db, storage } from "@/services/firebaseConnection";
+import { doc, setDoc } from "firebase/firestore";
+import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
+import Image from 'next/image';
+import { useContext, useState } from 'react';
+import { FiSettings, FiUpload } from 'react-icons/fi';
+import { toast } from 'react-toastify';
+import avatar from '../../../public/avatar.png';
+import HasError from '../hasError';
 
 export default function Account() {
-  const [email, setEmail] = useState('');
-  const [name, setName] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [favoritePlatform, setFavoritePlatform] = useState('');
-  const [userData, setUserData] = useState(null);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      setUserData(JSON.parse(storedUser));
-      setEmail(userData?.email || '');
-      setName(userData?.name || '');
-      setPhoneNumber(userData?.phoneNumber || '');
-      setFavoritePlatform(userData?.favoritePlatform || '');
-    }
-    setLoading(false);
-  }, []);
+  const { user, signOut, setUser, storageUser } = useContext(AuthContext)
+  const { hasError } = useContext(DataContext);
+  const [name, setName] = useState(user && user.name);
+  const [avatarUrl, setAvatarUrl] = useState(user && user.avatarUrl);
+  const [imageAvatar, setImageAvatar] = useState(null);
 
-  const handleSubmit = async (e) => {
+
+  async function handleSubmit(e) {
     e.preventDefault();
-    try {
-      const usersCollectionRef = collection(db, 'users');
-      const q = query(usersCollectionRef, where('email', '==', userData.email));
-      const querySnapshot = await getDocs(q);
+    const usersRef = doc(db, "users", user.uid);
+    let updatedData = {};
 
-      if (querySnapshot.empty) {
-        toast.error('User not found');
-        return;
-      }
-
-      const userDoc = querySnapshot.docs[0];
-      const userId = userDoc.id;
-      const userRef = doc(db, 'users', userId);
-      const userDataToUpdate = {
-        email: email || userData.email,
-        name: name || userData.name,
-        phoneNumber: phoneNumber || userData.phoneNumber,
-        favoritePlatform: favoritePlatform || userData.favoritePlatform,
-      };
-
-      await updateDoc(userRef, userDataToUpdate);
-
-      const updatedUserData = { ...userData, ...userDataToUpdate };
-      localStorage.setItem('user', JSON.stringify(updatedUserData));
-
-      toast.success('Profile updated successfully');
-    } catch (error) {
-      toast.error('Failed to update profile: ' + error.message);
+    if (name !== user.name) {
+      updatedData.name = name;
     }
-  };
 
-  if (loading) {
-    return <Loading />;
+    if (avatar !== user.avatarUrl) {
+      const imageUrl = await handleUpload();
+      updatedData.avatarUrl = imageUrl;
+    }
+
+    try {
+      await setDoc(usersRef, updatedData);
+      const data = { ...user, ...updatedData };
+      setUser(data);
+      storageUser(data);
+      toast.success("Success!");
+    } catch (error) {
+      console.error(error);
+    }
   }
 
-  if (!userData) {
+
+  function handleFile(e) {
+
+    if (e.target.files[0]) {
+      const image = e.target.files[0];
+
+      if (image.type === 'image/jpeg' || image.type === 'image/png' || image.type === "image/jpg") {
+
+        setImageAvatar(image);
+        setAvatarUrl(URL.createObjectURL(e.target.files[0]))
+
+      } else {
+        toast.error('Send an image in PNG or JPEG format');
+        setImageAvatar(null);
+        return null;
+      }
+
+    }
+
+  }
+
+  async function handleUpload() {
+    if (avatarUrl !== null) {
+      const imagesRef = ref(storage, `imagesUser/${user.uid}`);
+      const uploadTask = uploadBytesResumable(imagesRef, imageAvatar);
+
+      await new Promise((resolve, reject) => {
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => { },
+          (error) => {
+            reject(error);
+          },
+          () => {
+            resolve();
+          }
+        );
+      });
+
+      const url = await getDownloadURL(imagesRef);
+      return url;
+    }
+
+    return null;
+  }
+
+
+  if (hasError) {
+    return (
+      <HasError />
+    )
+  }
+
+  if (!storageUser) {
     return <AccountRedirect />;
   }
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-r text-white">
-      <Header/>
-      <div className="max-w-md mt-10 px-4 py-8 bg-gray-800 rounded-lg shadow-lg">
-        <h1 className="text-4xl font-bold mb-8 text-orange-600 text-center">Edit Profile</h1>
-        <form onSubmit={handleSubmit} className="space-y-4">
+    <div className="flex flex-col h-screen bg-gradient-to-r text-white">
+      <div className='w-full'>
+      <Header />
+      </div>
+      <h1 className='text-xl text-orange-600 mt-20 md:mt-24'>Hello, {user.name}</h1>
+      <div className="md:w-6/12 mx-auto mt-10 px-4 py-8 bg-gray-800 rounded-lg shadow-lg">
+        <h1 className="text-4xl font-bold mb-8 flex items-center gap-4 justify-center text-orange-600 text-center">Edit Profile <FiSettings size={25} />
+        </h1>
+        <form onSubmit={handleSubmit} className="space-y-4 flex flex-col mx-auto">
           <div>
-            <div>
-              <label htmlFor="email" className="text-lg">
-                Email:
-              </label>
+            <label className="w-9/12 mt-10 m-auto md:h-[400px] h-[200px] z-10 bg-orange-700 rounded flex items-center justify-center cursor-pointer">
+              <span className='absolute opacity-50'>
+                <FiUpload color="#FFF" size={25} />
+              </span>
+
+              <input type="file" accept="image/*" className="hidden" onChange={handleFile} /><br />
+              {avatarUrl === null ?
+                <Image src={avatar} width="250" height="250" className='w-full h-full object-cover' alt="Foto de perfil do usuario" />
+                :
+                <img src={avatarUrl} width="250" height="250" className='w-full h-full object-cover' alt="Foto de perfil do usuario" />
+              }
+            </label>
+
+
+            <div className="relative my-5">
               <input
-                type="email"
-                id="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder={userData?.email || ''}
-                className="w-full px-4 py-2 rounded-lg bg-gray-700 text-white focus:outline-none focus:bg-gray-900"
-                required
-              />
-            </div>
-            <div>
-              <label htmlFor="name" className="text-lg">
-                Name:
-              </label>
-              <input
-                type="text"
-                id="name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder={userData?.name || ''}
-                className="w-full px-4 py-2 rounded-lg bg-gray-700 text-white focus:outline-none focus:bg-gray-900"
-                required
-              />
-            </div>
-            <div>
-              <label htmlFor="phoneNumber" className="text-lg">
-                Phone Number:
-              </label>
-              <input
                 type="text"
-                id="phoneNumber"
-                value={phoneNumber}
-                onChange={(e) => setPhoneNumber(e.target.value)}
-                placeholder={userData?.phoneNumber || ''}
-                className="w-full px-4 py-2 rounded-lg bg-gray-700 text-white focus:outline-none focus:bg-gray-900"
-                required
-              />
-            </div>
-            <div>
-              <label htmlFor="favoritePlatform" className="text-lg">
-                Favorite Platform:
-              </label>
-              <select
-                id="favoritePlatform"
-                value={favoritePlatform}
-                onChange={(e) => setFavoritePlatform(e.target.value)}
-                placeholder={userData?.favoritePlatform || ''}
-                className="w-full px-4 py-2 rounded-lg bg-gray-700 text-white focus:outline-none focus:bg-gray-900"
-                required
-              >
-                <option value="">Select a platform</option>
-                <option value="pc">PC</option>
-                <option value="xbox">Xbox</option>
-                <option value="playstation">PlayStation</option>
-                <option value="nintendo">Nintendo</option>
-                <option value="mobile">Mobile</option>
-              </select>
+                id="name"
+                className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border border-orange-600 appearance-none dark:text-white dark:border-zinc-500 dark:focus:border-orange-600 focus:outline-none focus:ring-0 focus:border-orange-600 peer" placeholder=" " />
+
+              <label
+                className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-gray-800 0 px-2 peer-focus:px-2 peer-focus:text-orange-600 peer-focus:dark:text-orange-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Name</label>
             </div>
           </div>
           <button
@@ -145,6 +148,7 @@ export default function Account() {
           </button>
         </form>
       </div>
+          <button onClick={signOut} className='mt-20 bg-orange-600 w-fit mx-auto px-6 font-semibold p-3 rounded-lg'>LogOut</button>
     </div>
   );
 }

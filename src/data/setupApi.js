@@ -47,3 +47,5 @@ export function setupApi() {
 
   return api;
 }
+
+export const api = setupApi();
