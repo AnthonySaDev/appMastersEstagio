@@ -74,7 +74,7 @@ const Cards = ({ data }) => {
             visibleData.map((item) => <GameCard item={item} key={item.id} />)
           ) : (
             <div className="text-white text-center py-20">
-              <p>I promise, I'm trying to find them 😘.</p>
+              <p>I promise, Im trying to find them 😘.</p>
             </div>
           )}
         </div>
