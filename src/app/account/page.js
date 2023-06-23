@@ -108,7 +108,7 @@ export default function Account() {
       <div className='w-full'>
       <Header />
       </div>
-      <h1 className='text-xl text-orange-600 mt-20 md:mt-24'>Hello, {user.name}</h1>
+      <h1 className='text-xl text-orange-600 mt-20 md:mt-24'>Hello,</h1>
       <div className="md:w-6/12 mx-auto mt-10 px-4 py-8 bg-gray-800 rounded-lg shadow-lg">
         <h1 className="text-4xl font-bold mb-8 flex items-center gap-4 justify-center text-orange-600 text-center">Edit Profile <FiSettings size={25} />
         </h1>
