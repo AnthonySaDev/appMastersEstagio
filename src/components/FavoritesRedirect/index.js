@@ -10,7 +10,7 @@ export default function FavoriteRedirect() {
           <div className="flex flex-col items-center px-2 justify-center h-screen bg-gradient-to-r text-white">
             <h1 className="text-4xl font-bold mb-8 text-red-800">Oops!</h1>
             <p className="text-lg mb-6 flex flex-col items-center justify-center">
-              It seems like you don't have any favorites yet.
+              It seems like you dont have any favorites yet.
               <span className="text-4xl mt-2">
                 <FiFrown className='text-red-800' />
               </span>

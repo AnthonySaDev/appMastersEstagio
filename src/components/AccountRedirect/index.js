@@ -11,7 +11,7 @@ export default function AccountRedirect() {
     <div className="flex flex-col items-center px-2 justify-center h-screen bg-gradient-to-r  text-white">
       <h1 className="text-4xl font-bold mb-8 text-orange-600">Oops!</h1>
       <p className="text-lg mb-6 flex flex-col items-center justify-center text-center">
-        It seems like you're not logged in to view and edit your credentials.
+        It seems like you re not logged in to view and edit your credentials.
         <span className="text-4xl mt-2">
           <FiLock className='text-orange-600'/>
         </span>
@@ -28,7 +28,7 @@ export default function AccountRedirect() {
             register
           </Link>{' '}
           </p>
-          if you don't have an account.
+          if you dont have an account.
         </div>
       </div>
       <p className="text-sm">Enjoy managing your data!</p>

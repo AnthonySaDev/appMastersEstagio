@@ -34,7 +34,7 @@ export default function Favorites() {
       <h1 className='text-red-600 text-xl font-bold'>Hello, {userData.name}</h1>
       <p>This is your list of favorite games.</p>
       <p>You can edit anything you want 😊</p>
-      {favorites.length==0?<p>To add favorites, simply click on "See More" on the game card that you like.</p>:<></>}
+      {favorites.length==0?<p>To add favorites, simply click on See More on the game card that you like.</p>:<></>}
       </div>
     </div>
 )
