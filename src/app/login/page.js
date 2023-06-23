@@ -54,7 +54,15 @@ export default function Login() {
             {loadingAuth ? 'Loading...' : 'Login'}
           </button>
         </form>
-
+        <p className='text-center my-2'>Dont have account? </p>
+        <button
+          initial={{ x: -500 }}
+          animate={{ x: 0 }}
+          transition={{ duration: .9 }}
+          onClick={() => {
+            router.push('/register')
+          }}
+          className='flex items-center mx-auto bg-gradient-to-l from-pink-600 to-purple-800 text-white font-bold py-2 px-4 rounded mt-4'>Register</button>
       </div>
     </div>
   );

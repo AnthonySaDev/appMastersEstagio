@@ -54,7 +54,7 @@ export default function Header() {
               HOME
             </p>
           </Link>
-          <Link href='#games' className="hover:text-pink-600 transition-colors duration-300 w-fit whitespace-nowrap flex items-center gap-2">
+          <Link href='/#games' className="hover:text-pink-600 transition-colors duration-300 w-fit whitespace-nowrap flex items-center gap-2">
           <IoGameController size={25}/>
             <p className=" cursor-pointer ">
               GAMES

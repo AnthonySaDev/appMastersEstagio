@@ -4,13 +4,15 @@ import Header from '@/components/Header';
 import { AuthContext } from '@/contexts/auth';
 import { DataContext } from '@/contexts/data';
 import { useRouter } from 'next/navigation';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { FiArrowLeft, FiHeart } from 'react-icons/fi';
 import { toast } from 'react-toastify';
+import { motion } from 'framer-motion';
 
 export default function Games({ params }) {
   const { data, hasError } = useContext(DataContext);
   const { user } = useContext(AuthContext);
+  const [visible, setVisible] = useState(false)
   const router = useRouter();
 
   const filteredData = data.filter((item) => item.id === Number(params.id));
@@ -18,6 +20,7 @@ export default function Games({ params }) {
   const addFavorite = () => {
     if (!user) {
       toast.warn("You need to be authenticated to favorite a game, access your account.");
+      setVisible(true);
       return;
     }
 
@@ -79,9 +82,32 @@ export default function Games({ params }) {
                 Favoritar
               </button>
             </div>
+            {
+              visible && (
+                <div className='w-full flex items-center justify-center gap-10 mt-5'>
+                  <motion.button 
+                  initial={{x:500}}
+                  animate={{x:0}}
+                  transition={{duration:.9}}
+                  onClick={()=>{
+                    router.push('/login')
+                  }}
+                  className='flex items-center bg-gradient-to-r from-pink-600 to-purple-800 text-white font-bold py-2 px-4 rounded mt-4'>Login</motion.button>
+                  <motion.button
+                   initial={{x:-500}}
+                   animate={{x:0}}
+                   transition={{duration:.9}}
+                   onClick={()=>{
+                    router.push('/register')
+                  }}
+                  className='flex items-center bg-gradient-to-l from-pink-600 to-purple-800 text-white font-bold py-2 px-4 rounded mt-4'>Register</motion.button>
+                </div>
+              )
+            }
           </div>
         ))}
       </div>
+
     </div>
   );
 }
