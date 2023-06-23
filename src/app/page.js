@@ -9,7 +9,7 @@ import HasError from './hasError';
 import { DataContext } from '@/contexts/data';
 
 export default function Home() {
-  const {data, hasError} = useContext(DataContext);
+  const {data, hasError, loading} = useContext(DataContext);
   if (hasError) {
     return (
       <HasError />
@@ -41,7 +41,7 @@ export default function Home() {
                 </span>
               </div>
             </div>
-            <Cards data={data} />
+            <Cards data={data} loading={loading} />
           </main>
 
         </div>

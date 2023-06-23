@@ -7,7 +7,7 @@ import { Partciles } from '../Particles';
 import SearchComponent from '../Search';
 import { GameCard } from '../gameCards';
 
-const Cards = ({ data }) => {
+const Cards = ({ data, loading }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
   const [isOpen, setIsOpen] = useState(false);
@@ -49,7 +49,7 @@ const Cards = ({ data }) => {
   const genres = Array.from(new Set(data.map((item) => item.genre)));
 
   return (
-    <div  className="md:py-28 py-10" id="games">
+    <div className="md:py-28 py-10" id="games">
       <Partciles />
       <div className="flex justify-center relative items-end">
         <SearchComponent onSearch={handleSearch} />
@@ -70,10 +70,18 @@ const Cards = ({ data }) => {
       <div>
         <div className="grid gap-10 justify-center items-center mt-10 w-9/12 mx-auto sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
           {visibleData.length > 0 ? (
-            visibleData.map((item) => <GameCard item={item} key={item.id} />)
+            visibleData.map((item) => {
+              loading ?
+                <div className="text-white text-center font-semibold py-20">
+                  <p>
+                    wait a moment, Im looking for them 😘.</p>
+                </div>
+                :
+                <GameCard item={item} key={item.id} />
+            })
           ) : (
-            <div className="text-white text-center py-20">
-              <p>I promise, Im trying to find them 😘.</p>
+            <div className="text-white text-center font-semibold py-20">
+              <p>I promise, Im trying to find them 😣.</p>
             </div>
           )}
         </div>
