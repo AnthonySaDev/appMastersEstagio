@@ -50,7 +50,7 @@ export default function Games({ params }) {
   }
 
   return (
-    <div className="font-sans">
+    <div className="font-sans bg-black">
       <div className="flex bg-black h-fit md:h-screen md:max-w-10/12 mx-auto mb:pb-0 bg-opacity-75 flex-col md:flex-col-reverse items-center justify-center">
         <Header />
         {filteredData.map((item) => (
