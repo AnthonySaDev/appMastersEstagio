@@ -1,7 +1,8 @@
 'use client'
-import React, { useState, useContext } from 'react';
 import Header from '@/components/Header';
 import { AuthContext } from '@/contexts/auth';
+import { useRouter } from 'next/navigation';
+import { useContext, useState } from 'react';
 import { toast } from 'react-toastify';
 
 export default function Register() {
@@ -10,6 +11,7 @@ export default function Register() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const { signUp, loadingAuth } = useContext(AuthContext);
+  const router = useRouter();
 
   function handleSubmit(e) {
     e.preventDefault();
