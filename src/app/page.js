@@ -1,16 +1,23 @@
 'use client'
 import Cards from '@/components/Cards';
+import { DataContext } from '@/contexts/data';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { useContext } from 'react';
 import { FaArrowCircleDown } from 'react-icons/fa';
 import background from '../../public/background.jpg';
 import HasError from './hasError';
-import { DataContext } from '@/contexts/data';
 import Loading from './loading';
 
 export default function Home() {
   const { data, hasError, loading } = useContext(DataContext);
+
+  if(loading){
+    return (
+      <Loading />
+    )
+  }
+
   if (hasError) {
     return (
       <HasError />
