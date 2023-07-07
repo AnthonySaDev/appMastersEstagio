@@ -1,9 +1,8 @@
 import { AuthContext } from "@/contexts/auth";
-import { checkFavorite } from "@/utils/CheckFavorite";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import borda from '../../../public/borda.png';
 import HalfRating from "../../utils/Rating";
 import Button from "../Button";
@@ -53,7 +52,7 @@ export const GameCard = ({ item, filteredData, setVisible }) => {
               animate={{ opacity: hovered ? 1 : 0, y: hovered ? 0 : 30 }}
               transition={{ opacity: { duration: 0.4 }, y: { duration: 0.7 } }}
             >
-              <div className="bg-black/95 mx-auto flex flex-col items-start px-5 gap-4 py-[4.5rem] justify-center rounded-b">
+              <div className="bg-black/95 mx-auto flex flex-col items-start px-5 gap-4 py-[4rem] justify-center rounded-b">
                 <div className="flex items-start justify-center gap-4">
                 <HalfRating isGameFavorited={isGameFavorited} setIsGameFavorited={setIsGameFavorited} value={value} setValue={setValue} gameId={item.id} filteredData={filteredData} user={user} setVisible={setVisible} readOnly={false}/>
                 </div>
