@@ -14,7 +14,7 @@ module.exports = {
     },
   },
   screens: {
-    'xl': '1350px', 
+    'xxl': '1350px', 
   },
   plugins: [
     require('@tailwindcss/typography'), 

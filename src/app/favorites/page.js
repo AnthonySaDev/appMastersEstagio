@@ -1,14 +1,13 @@
 'use client'
-import React, { useState, useEffect, useContext } from 'react';
-import Loading from './loading';
 import FavoriteRedirect from '@/app/FavoritesRedirect';
 import { AuthContext } from '@/contexts/auth';
 import { DataContext } from '@/contexts/data';
-import Link from 'next/link';
+import { db } from '@/services/firebaseConnection';
+import { arrayRemove, doc, getDoc, updateDoc } from 'firebase/firestore';
+import { useContext, useEffect, useState } from 'react';
 import { FaTrash } from 'react-icons/fa';
 import HasError from '../hasError';
-import { db } from '@/services/firebaseConnection';
-import { doc, getDoc, updateDoc, arrayRemove } from 'firebase/firestore';
+import Loading from './loading';
 
 export default function Favorites() {
   const { user, signOut } = useContext(AuthContext);

@@ -88,7 +88,7 @@ const Cards = ({ data }) => {
         </div>
       </div>
       <div>
-        <div className="grid gap-10 justify-center items-center mt-10 w-9/12 mx-auto sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
+        <div className="grid gap-20 justify-center items-center mt-10 w-9/12 mx-auto sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
           {isLoading
             ? Array.from({ length: itemsPerPage }).map((_, index) => (
               <CardSkeleton key={index} />

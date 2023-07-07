@@ -4,6 +4,7 @@ import Stack from '@mui/material/Stack';
 import { useState } from 'react';
 
 const labels = {
+    0.0 : 'Has no evaluation',
     0.5: "Too Bad",
     1.0: "Bad",
     1.5: "Not that Bad",
@@ -18,7 +19,7 @@ const labels = {
 }
 
 export default function HalfRating() {
-    const [value, setValue] = useState(3)
+    const [value, setValue] = useState(0)
     const [hover, setHover] = useState(-1)
 
     return (
@@ -36,10 +37,10 @@ export default function HalfRating() {
                 emptyIcon={<StarBorder style={{ color: '#ccc' }} />}
             />
             {value !== null && (
-                <div className='flex items-center justify-center w-fit mx-auto'>
-                    <span className='font-semibold text-center  '>
+                <div className='flex items-start justify-center w-full mx-auto'>
+                    <h1 className='font-semibold text-center  '>
                     {labels[hover !== -1 ? hover : value]}
-                    </span>
+                    </h1>
                 </div>
             )}
         </Stack>

@@ -38,7 +38,7 @@ export default function Header() {
           initial={{ y: -400 }}
           animate={{ y: 0 }}
           transition={{ duration: 1.5 }}
-          className=' lg:w-2/12 w-2/4'
+          className=' w-2/4 lg:w-[250px]'
         >
           <Link href="/#home" className={'brightness-[4]'}>
             <Logo/>
@@ -48,7 +48,7 @@ export default function Header() {
           initial={{ x: 800 }}
           animate={{ x: 0 }}
           transition={{ duration: 2 }}
-          className=" hidden w-8/12  md:flex items-center font-extrabold justify-around gap-10 text-sm">
+          className=" hidden w-8/12  lg:flex items-center font-extrabold justify-around gap-10 text-sm">
           <Link href='/#home' className="hover:text-green-600 transition-colors duration-300 w-fit whitespace-nowrap flex items-center gap-2 " >
             <FaHome size={25} />
             <p className=" cursor-pointer ">
@@ -81,7 +81,7 @@ export default function Header() {
         initial={{ x: 100 }}
         animate={{ x: 0 }}
         transition={{ duration: 1.5 }}
-        className="flex text-right md:hidden transition-all delay-100 cursor-pointer">
+        className="flex text-right lg:hidden transition-all delay-100 cursor-pointer">
         <div
           className="space-y-2 "
           onClick={() => {
