@@ -95,7 +95,7 @@ const Cards = ({ data }) => {
           )}
         </div>
       </div>
-        <h1 className='text-center font-semibold my-3 sm:hidden'>Place your cursor over the card 😉</h1>
+        <h1 className='text-center font-semibold my-3 hidden lg:flex'>Place your cursor over the card 😉</h1>
         <h1 className='text-center font-semibold my-3 lg:hidden'>Press the card 😉</h1>
       <div>
         <div className="grid gap-20 justify-center items-center mt-10 w-9/12 mx-auto sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
