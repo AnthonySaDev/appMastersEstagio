@@ -77,21 +77,21 @@ export default function Games({ params }) {
               <h1 className="text-4xl font-semibold text-yellow-400 text-center my-4">
                 {item.title}
               </h1>
-              <p className="text-lg text-white break-words">Genre: {item.genre}</p>
+              <p className="text-lg text-white break-words"><strong className='text-xl'>Genre: </strong> {item.genre}</p>
               <p className="text-lg text-white break-words">
-                Developed by: {item.developer}
+                <strong className='text-xl'>Developed by: </strong> {item.developer}
               </p>
               <p className="text-lg text-white break-words">
-                Published for: {item.publisher}
+              <strong className='text-xl'>Published for: </strong> {item.publisher}
               </p>
               <p className="text-lg text-white break-words">
-                Available for: {item.platform}
+              <strong className='text-xl'>Available for: </strong> {item.platform}
               </p>
               <p className="text-lg text-white break-words">
-                Description: {item.short_description}
+              <strong className='text-xl'>description: </strong> {item.short_description}
               </p>
               <p className="text-lg text-white break-words">
-                Release date: {item.release_date}
+              <strong className='text-xl'>Relesade date: </strong> {item.release_date}
               </p>
               <div className="flex items-center w-full justify-center font-semibold my-2 gap-3 text-lg text-blue-600">
                 <Link href={item.game_url} target="_blank" rel="noopener noreferrer">

@@ -50,11 +50,11 @@ import Button from "../Button";
           <div className="absolute bg-transparent top-0 left-0 w-full h-full">
             <div className="p-5 flex flex-col justify-between h-full">
               <div className="w-full h-[50%] lg:h-auto mb-1">
-                <img src={item.thumbnail} alt={item.title} className="w-full h-[220px] object-cover" />
+                <img src={item.thumbnail} alt={item.title} className="w-full lg:h-[220px] h-[210px] object-cover" />
               </div>
 
               <div className="flex flex-col h-full pb-3 justify-evenly">
-                <h1 className="md:text-xl text-lg font-extrabold text-center">{item.title}</h1>
+                <h1 className="text-2xl font-extrabold text-center">{item.title}</h1>
 
                 <div className="w-full  flex flex-col gap-3 text-zinc-300">
                   <span className="font-semibold pl-3 flex items-center gap-2 text-inherit">
@@ -73,7 +73,7 @@ import Button from "../Button";
                 initial={{ opacity: 0, y: 0 }}
                 animate={{ opacity: hovered ? 1 : 0, y: hovered ? 0 : 30 }}
                 transition={{ opacity: { duration: 0.4 }, y: { duration: 0.7 } }}>
-                <div className="bg-black/95 mx-auto flex flex-col items-start px-5 gap-4 py-[4.5rem] justify-center rounded-b">
+                <div className="bg-black/95 mx-auto flex flex-col items-start px-5 gap-4 py-[4.6rem] justify-center rounded-b">
                   <div className="flex items-start justify-center gap-4">
                     <HalfRating />
                     <button onClick={() => handleFavoriteClick(item.id, isGameFavorited)}>
