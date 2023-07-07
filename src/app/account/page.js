@@ -1,18 +1,17 @@
 'use client'
 import AccountRedirect from '@/app/AccountRedirect';
-import Header from '@/components/Header';
 import { AuthContext } from '@/contexts/auth';
 import { DataContext } from '@/contexts/data';
 import { db, storage } from "@/services/firebaseConnection";
 import { doc, setDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import Image from 'next/image';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { FiSettings, FiUpload } from 'react-icons/fi';
 import { toast } from 'react-toastify';
 import avatar from '../../../public/avatar.png';
 import HasError from '../hasError';
-
+import Loading from './loading';
 export default function Account() {
 
   const { user, signOut, setUser, storageUser } = useContext(AuthContext)
@@ -20,7 +19,14 @@ export default function Account() {
   const [name, setName] = useState(user && user.name);
   const [avatarUrl, setAvatarUrl] = useState(user && user.avatarUrl);
   const [imageAvatar, setImageAvatar] = useState(null);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    if (user) {
 
+      setAvatarUrl(user.avatarUrl);
+      setLoading(false);
+    }
+  }, [user]);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -43,7 +49,6 @@ export default function Account() {
       storageUser(data);
       toast.success("Success!");
     } catch (error) {
-      console.error(error);
     }
   }
 
@@ -92,7 +97,9 @@ export default function Account() {
 
     return null;
   }
-
+  if (loading) {
+    return <Loading />;
+  }
 
   if (hasError) {
     return (
@@ -106,9 +113,9 @@ export default function Account() {
   return (
     <div className="flex flex-col h-screen bg-gradient-to-r text-white">
       <div className='w-full'>
-      <Header />
+
       </div>
-      <h1 className='text-xl text-orange-600 mt-20 md:mt-24'>Hello,</h1>
+      <h1 className='text-xl text-orange-600 mt-20 md:mt-24'>Hello, {user.name}</h1>
       <div className="md:w-6/12 mx-auto mt-10 px-4 py-8 bg-gray-800 rounded-lg shadow-lg">
         <h1 className="text-4xl font-bold mb-8 flex items-center gap-4 justify-center text-orange-600 text-center">Edit Profile <FiSettings size={25} />
         </h1>
@@ -148,7 +155,9 @@ export default function Account() {
           </button>
         </form>
       </div>
+      <div className='py-10 flex items-center justify-center'>
           <button onClick={signOut} className='mt-20 bg-orange-600 w-fit mx-auto px-6 font-semibold p-3 rounded-lg'>LogOut</button>
+      </div>
     </div>
   );
 }

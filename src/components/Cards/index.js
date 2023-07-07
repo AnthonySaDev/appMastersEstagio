@@ -1,58 +1,57 @@
 'use client'
 import Link from 'next/link';
-import { useMemo, useState, useEffect } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { AiFillCloseCircle, AiOutlineArrowUp } from 'react-icons/ai';
 import { IoListCircleOutline } from 'react-icons/io5';
+import CardSkeleton from '../CardSkeleton';
 import { GenreFilter } from '../Filter';
 import { Partciles } from '../Particles';
 import SearchComponent from '../Search';
 import { GameCard } from '../gameCards';
-import CardSkeleton from '../CardSkeleton';
 
 const Cards = ({ data }) => {
+  const itemsPerPage = 6;
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [selectedGenre, setSelectedGenre] = useState('all');
   const [isLoading, setIsLoading] = useState(true);
-  const itemsPerPage = 6;
 
-  const filteredData = useMemo(() => {
-    let updatedData = data;
+  const filterData = useCallback((updatedData) => {
     if (searchTerm) {
-      updatedData = updatedData.filter(
-        (item) =>
-          item.title.toLowerCase().includes(searchTerm.toLowerCase())
+      updatedData = updatedData.filter((item) =>
+        item.title.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
     if (selectedGenre !== 'all') {
       updatedData = updatedData.filter((item) => item.genre === selectedGenre);
     }
-
     return updatedData;
-  }, [data, searchTerm, selectedGenre]);
+  }, [searchTerm, selectedGenre]);
 
-  const handleLoadMore = () => {
-    setCurrentPage((prevPage) => prevPage + 1);
-  };
+  const filteredData = useMemo(() => filterData(data), [filterData, data]);
 
-  const handleFilter = (filtered) => {
-    setCurrentPage(1);
+  const handleLoadMore = useCallback(() => setCurrentPage((prevPage) => prevPage + 1), []);
+
+  const handleFilter = useCallback((filtered) => {
     setSelectedGenre(filtered);
-  };
+    setIsOpen(false);
+    setCurrentPage(1);
+  }, []);
 
-  const handleSearch = (term) => {
+  const handleSearch = useCallback((term) => {
     setSearchTerm(term);
     setCurrentPage(1);
-  };
+  }, []);
+
+  const toggleIsOpen = useCallback(() => setIsOpen((prevIsOpen) => !prevIsOpen), []);
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const visibleData = useMemo(() => filteredData.slice(0, endIndex), [
-    filteredData,
-    endIndex,
-  ]);
-  const genres = Array.from(new Set(data.map((item) => item.genre)));
+
+  const visibleData = useMemo(() => filteredData.slice(0, endIndex), [filteredData, endIndex]);
+
+  const genres = useMemo(() => Array.from(new Set(data.map((item) => item.genre))), [data]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -78,7 +77,7 @@ const Cards = ({ data }) => {
           )}
         </div>
         <div className="absolute top-[8.9rem] z-20">
-          {isOpen && (
+          {toggleIsOpen && (
             <GenreFilter
               selectedGenre={selectedGenre}
               handleFilter={handleFilter}
@@ -89,20 +88,20 @@ const Cards = ({ data }) => {
         </div>
       </div>
       <div>
-        <div className="grid gap-10 justify-center items-center mt-10 w-9/12 mx-auto sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-10 justify-center items-center mt-10 w-9/12 mx-auto sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
           {isLoading
             ? Array.from({ length: itemsPerPage }).map((_, index) => (
-                <CardSkeleton key={index} />
-              ))
+              <CardSkeleton key={index} />
+            ))
             : visibleData.length > 0 ? (
-                visibleData.map((item) => (
-                  <GameCard item={item} key={item.id} />
-                ))
-              ) : (
-                <div className="text-white text-center py-20">
-                  <p>I promise, Im trying to find them 😘.</p>
-                </div>
-              )}
+              visibleData.map((item) => (
+                <GameCard item={item} key={item.id} />
+              ))
+            ) : (
+              <div className="text-white text-center py-20">
+                <p>I promise, Im trying to find them 😘.</p>
+              </div>
+            )}
         </div>
       </div>
       <div className="flex justify-center items-center relative mt-5">

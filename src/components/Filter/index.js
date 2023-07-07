@@ -1,13 +1,13 @@
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 export const GenreFilter = ({ selectedGenre, handleFilter, genres, isOpen }) => {
   return (
     <AnimatePresence>
     {isOpen && (
       <motion.div
-        initial={{ y: 500 }}
+        initial={{ y: 1000 }}
         animate={{ y: 0 }}
-        exit={{ y: 200 }}
-        transition={{ duration: 0.5 }}
+        exit={{ y: 500 }}
+        transition={{ duration: 0.9 }}
         className={`grid grid-cols-2 filter rounded-lg items-center gap-2 pb-2 px-2`}
       >
       <div

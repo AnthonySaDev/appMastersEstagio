@@ -15,20 +15,15 @@ export function setupApi() {
     error => {
       const { response } = error;
       const status = response ? response.status : null;
-
       if ([500, 502, 503, 504, 507, 508, 509].includes(status)) {
-      
         toast.error('The server failed to respond, please try reloading the page');
       } else {
-
         toast.warn("The server couldn't respond for now, please try again later");
       }
-
       return Promise.reject(error);
     }
   );
 
- 
   const timeoutId = setTimeout(() => {
     toast.warn("The server took too long to respond, please try again later");
   }, 5000);

@@ -13,6 +13,9 @@ module.exports = {
       ttoctosquares: ['Ttoctosquares', 'sans-serif'],
     },
   },
+  screens: {
+    'xl': '1350px', 
+  },
   plugins: [
     require('@tailwindcss/typography'), 
   ],

@@ -51,7 +51,7 @@ function AuthProvider({ children }) {
       toast.success('Welcome!');
       router.push('/')
     } catch (error) {
-      console.log(error);
+   
       toast.error('Oops! Something went wrong!');
       setLoadingAuth(false);
     }
@@ -82,7 +82,7 @@ function AuthProvider({ children }) {
       toast.success('Welcome to platform!');
       router.push('/login')
     } catch (error) {
-      console.log(error);
+   
       toast.error('Oops! Something went wrong!');
       setLoadingAuth(false);
     }

@@ -1,34 +1,66 @@
 'use client'
 import React, { useState, useEffect, useContext } from 'react';
-import Header from '@/components/Header';
+import Loading from './loading';
 import FavoriteRedirect from '@/app/FavoritesRedirect';
 import { AuthContext } from '@/contexts/auth';
 import { DataContext } from '@/contexts/data';
 import Link from 'next/link';
 import { FaTrash } from 'react-icons/fa';
 import HasError from '../hasError';
+import { db } from '@/services/firebaseConnection';
+import { doc, getDoc, updateDoc, arrayRemove } from 'firebase/firestore';
 
 export default function Favorites() {
-  const { user } = useContext(AuthContext);
+  const { user, signOut } = useContext(AuthContext);
   const { hasError } = useContext(DataContext);
   const [favorites, setFavorites] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const myList = localStorage.getItem("@games");
-    const savedGames = JSON.parse(myList) || [];
-    setFavorites(savedGames);
-  }, []);
+    const fetchData = async () => {
+      if (user) {
+        const docRef = doc(db, 'favorites', user.uid);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          setFavorites(docSnap.data().favorites);
+        } else {
+        }
+      }
+      setLoading(false);
+    };
+    
+    fetchData();
+  }, [user]);
+
+  if (loading) {
+    return <Loading />;
+  }
 
   if (!user) {
     return <FavoriteRedirect />;
   }
 
+  const deleteFavorite = async (gameId) => {
+    if (user) {
+      const docRef = doc(db, 'favorites', user.uid);
+      const docSnap = await getDoc(docRef);
 
-  function deleteFavorite(gameId) {
-    const updatedFavorites = favorites.filter((game) => game.id !== gameId);
-    setFavorites(updatedFavorites);
-    localStorage.setItem('@games', JSON.stringify(updatedFavorites));
-  }
+      if (docSnap.exists()) {
+        const gameToRemove = docSnap.data().favorites.find((game) => game.id === gameId);
+        
+        if (gameToRemove) {
+          await updateDoc(docRef, {
+            favorites: arrayRemove(gameToRemove)
+          });
+          
+          // Now update the local state
+          setFavorites((prevFavorites) => prevFavorites.filter((game) => game.id !== gameId));
+        }
+      }
+    }
+  };
+  
   if (hasError) {
     return (
       <HasError />
@@ -36,12 +68,15 @@ export default function Favorites() {
   }
   return (
     <div className="flex flex-col  h-screen bg-gradient-to-r text-white">
-      <Header />
+
       <div className="w-10/12 mt-20 md:mt-24 flex flex-col items-center justify-center mx-auto ">
         <div className='flex w-full md:w-5/12 mx-auto justify-between items-center mb-5'>
           <h1 className="text-red-600 text-xl font-bold">Hello, {user.name}</h1>
-          <img src={user.avatarUrl} width="60" height="60" className='object-cover md:hidden rounded-full' />
-          <img src={user.avatarUrl} width="150" height="150" className='object-cover md:flex hidden rounded-full' />
+          {user.avatarUrl !== null ?
+          <div>
+            <img src={user.avatarUrl} width="60" height="60" className='object-cover md:hidden rounded-full' />
+            <img src={user.avatarUrl} width="150" height="150" className='object-cover md:flex hidden rounded-full' />
+          </div> : <></>}
         </div>
         <p className='text-center text-2xl'>This is your list of favorite games.</p>
         <p className='text-center text-2xl'>You can edit anything you want 😊</p>
@@ -55,9 +90,7 @@ export default function Favorites() {
                 <div className='py-2 text-center flex flex-col gap-2'>
                   <h1 className=' text-red-600 text-lg'>{game.title}</h1>
                   <p>{game.short_description}</p>
-                  <Link className='my-3 text-blue-600' target="_blank" rel="external" href={`https://youtube.com/results?search_query=${game.title} trailer`}>
-                    Trailer of Game
-                  </Link>
+                
                   <button onClick={() => deleteFavorite(game.id)} className='flex w-fit mx-auto rounded text-red-600 justify-center items-center gap-1'>
                     Remove Favorite
                     <FaTrash />
@@ -68,6 +101,9 @@ export default function Favorites() {
             ))}
           </>
         )}
+      </div>
+      <div className='py-10 flex items-center justify-center'>
+          <button onClick={signOut} className='mt-20 bg-red-600 w-fit mx-auto px-6 font-semibold p-3 rounded-lg'>LogOut</button>
       </div>
     </div>
   );

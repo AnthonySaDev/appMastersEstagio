@@ -7,7 +7,7 @@ export default function AccountRedirect() {
  ;
     return (
     <div>
-    <Header />
+
     <div className="flex flex-col items-center px-2 justify-center h-screen bg-gradient-to-r  text-white">
       <h1 className="text-4xl font-bold mb-8 text-orange-600">Oops!</h1>
       <p className="text-lg mb-6 flex flex-col items-center justify-center text-center">

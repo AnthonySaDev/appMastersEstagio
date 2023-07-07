@@ -2,6 +2,7 @@
 import React, { createContext, useEffect, useState } from 'react';
 import { api } from '@/data/setupApi';
 
+
 export const DataContext = createContext();
 
 function DataProvider({ children }){
@@ -18,7 +19,6 @@ function DataProvider({ children }){
         setData(newData);
         setLoading(false);
       } catch (error) {
-        console.error(error);
         setHasError(true);
         setLoading(true);
       }

@@ -4,6 +4,8 @@ import './globals.css';
 import Head from 'next/head';
 import AuthProvider from '@/contexts/auth';
 import DataProvider from '@/contexts/data';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 export const metadata = {
   title: 'App Masters',
   description: 'Exame para Vaga de Estágio',
@@ -20,8 +22,8 @@ export default function RootLayout({ children }) {
             <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
             <link rel="manifest" href="/site.webmanifest" />
           </Head>
-
           <body >
+            <Header />
             {children}
             <ToastContainer
               position="top-center"
@@ -35,6 +37,7 @@ export default function RootLayout({ children }) {
               pauseOnHover
               theme="dark"
             />
+        
           </body>
         </html>
       </DataProvider>

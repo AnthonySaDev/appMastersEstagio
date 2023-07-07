@@ -19,7 +19,7 @@ export default function Login() {
 
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-r text-white">
-      <Header />
+    
       <div className="max-w-md mt-10 px-4 py-8 bg-gray-800 rounded-lg shadow-lg">
         <h1 className="text-4xl font-bold mb-8 text-[#ff0f7b] text-center">Login</h1>
         <form onSubmit={handleLogin} className="space-y-4">

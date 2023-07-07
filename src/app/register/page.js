@@ -26,7 +26,7 @@ export default function Register() {
 
   return (
     <div className="flex flex-col mt-10 items-center justify-center h-screen bg-gradient-to-r text-white">
-      <Header />
+   
       <div className="max-w-md mt-10 px-4 py-8 bg-gray-800 rounded-lg shadow-lg">
         <h1 className="text-4xl font-bold mb-8 text-[#ff0f7b] text-center">Register</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
