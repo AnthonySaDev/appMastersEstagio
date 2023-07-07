@@ -2,54 +2,24 @@
 import HasError from '@/app/hasError';
 import { AuthContext } from '@/contexts/auth';
 import { DataContext } from '@/contexts/data';
-import { db } from '@/services/firebaseConnection';
 import { addFavorite } from '@/utils/AddFavorite';
 import { checkFavorite } from '@/utils/CheckFavorite';
 import HalfRating from '@/utils/Rating';
-import { collection, doc, setDoc } from 'firebase/firestore';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useContext, useEffect, useState } from 'react';
-import { FiArrowLeft, FiHeart } from 'react-icons/fi';
-import { toast } from 'react-toastify';
-
+import { FiArrowLeft } from 'react-icons/fi';
 export default function Games({ params }) {
   const { data, hasError } = useContext(DataContext);
   const { user } = useContext(AuthContext);
   const [visible, setVisible] = useState(false);
   const [isGameFavorited, setIsGameFavorited] = useState(false);
-  const [rating, setRating] = useState(0);
-  const [hoverRating, setHoverRating] = useState(null);
+  const [value, setValue] = useState(0);
   const router = useRouter();
 
   const filteredData = data.filter((item) => item.id === Number(params.id));
   const favoriteId = Number(params.id);
-
-  useEffect(() => {
-    checkFavorite(favoriteId, user, setIsGameFavorited);
-  }, [user, favoriteId, setIsGameFavorited]);
-
-
-
-  const handleRating = async (rate) => {
-    if (!user) {
-      toast.warn('Você precisa estar autenticado para avaliar um jogo, acesse sua conta.');
-      setVisible(true);
-      return;
-    }
-
-    try {
-      const gameRef = doc(collection(db, 'games'), String(favoriteId));
-      await setDoc(gameRef, { rating: rate }, { merge: true });
-
-      setRating(rate);
-      toast.success('Avaliação salva com sucesso!');
-    } catch (error) {
-      toast.error('Algo deu errado ao salvar sua avaliação.');
-    }
-    setRating(rate);
-  };
 
   const handleGoBack = () => {
     router.push('/#games');
@@ -105,7 +75,7 @@ export default function Games({ params }) {
                 </Link>
               </div>
               <div className='w-fit mx-auto'>
-                <HalfRating />
+              <HalfRating isGameFavorited={isGameFavorited} setIsGameFavorited={setIsGameFavorited} value={value} setValue={setValue} gameId={item.id} filteredData={filteredData} user={user} setVisible={setVisible} readOnly={false}/>
               </div>
             </div>
             <div className="flex w-full justify-center items-center gap-4">
@@ -117,15 +87,7 @@ export default function Games({ params }) {
                 Back
               </button>
 
-              <button
-                className={`flex items-center ${isGameFavorited ? 'bg-zinc-600' : 'bg-red-600 hover:bg-red-500'
-                  } text-white font-bold py-2 px-4 rounded mt-4`}
-                onClick={() => addFavorite(favoriteId, filteredData, user, setVisible, setIsGameFavorited)}
-                disabled={isGameFavorited}
-              >
-                <FiHeart className="mr-2" color={isGameFavorited ? "red" : ""} />
-                {isGameFavorited ? 'Favorited' : 'Favorite'}
-              </button>
+         
 
             </div>
             {visible && (

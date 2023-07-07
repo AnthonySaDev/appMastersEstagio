@@ -1,50 +1,70 @@
-import { StarBorder } from '@mui/icons-material';
-import Rating from '@mui/material/Rating';
-import Stack from '@mui/material/Stack';
-import { useState } from 'react';
+import { StarBorder } from "@mui/icons-material";
+import { Rating, Stack } from "@mui/material";
+import { useEffect, useState } from "react";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { addFavorite } from "../AddFavorite";
+import { checkFavorite } from "../CheckFavorite";
+import { deleteFavorite } from "../DeleteFavorite";
 
 const labels = {
     0.0 : 'Has no avaliation',
-    0.5: "Too Bad",
     1.0: "Bad",
-    1.5: "Not that Bad",
     2.0: "More or Less",
-    2.5: "Could Be Better",
     3.0: "Cool",
-    3.5: "Good",
     4.0: "Very Good",
-    4.5: "Excellent",
     5.0: "Best Game",
 
 }
 
-export default function HalfRating() {
-    const [value, setValue] = useState(0)
-    const [hover, setHover] = useState(-1)
+export default function HalfRating({ isGameFavorited, setIsGameFavorited, value, setValue, gameId, filteredData, user, setVisible, readOnly }) {
+    const [hover, setHover] = useState(-1);
+
+    useEffect(() => {
+        checkFavorite(gameId, user, setIsGameFavorited, setValue);
+      }, [gameId, user]);
+
+    const handleFavoriteClick = async () => {
+        if (isGameFavorited) {
+            const removedGame = await deleteFavorite(gameId, user);
+            setValue(0);
+            if (removedGame) {
+                setIsGameFavorited(false);
+            }
+        } else {
+            await addFavorite(gameId, filteredData, user, setVisible, setIsGameFavorited, value);
+        }
+    };
 
     return (
-        <div className='flex flex-col items-start justify-center w-full mx-auto'>
-        <Stack spacing={1}>
-            <Rating
-                name="hover-feedback"
-                defaultValue={value}
-                precision={0.5}
-                onChange={(e, newValue) => {
-                    setValue(newValue)
-                }}
-                onChangeActive={(event, newHover) => {
-                    setHover(newHover);
-                }}
-                emptyIcon={<StarBorder style={{ color: '#ccc' }} />}
-            />
-            {value !== null && (
-                <div>
-                    <h1 className='font-semibold text-center  '>
-                    {labels[hover !== -1 ? hover : value]}
-                    </h1>
-                </div>
-            )}
-        </Stack>
+        <div className='flex items-center justify-center gap-5 w-full mx-auto'>
+            <Stack spacing={1}>
+                <Rating
+                    name="hover-feedback"
+                    value={value}
+                    precision={1}
+                    onChange={(event, newValue) => {
+                        setValue(newValue);
+                    }}
+                    onChangeActive={(event, newHover) => {
+                        setHover(newHover);
+                    }}
+                    emptyIcon={<StarBorder style={{ color: '#ccc' }} />}
+                    readOnly={readOnly}
+                />
+                {value !== null && (
+                    <div>
+                        <h1 className='font-semibold text-center'>
+                            {labels[hover !== -1 ? hover : value]}
+                        </h1>
+                    </div>
+                )}
+            </Stack>
+            <button
+                className={`flex items-center bg-transparent text-white font-bold py-5 px-3 rounded text-base`}
+                onClick={handleFavoriteClick}
+              >
+                {isGameFavorited ? <FaHeart size={34} color="red"/> : <FaRegHeart size={34} color="white"/>}
+              </button>
         </div>
     );
 }

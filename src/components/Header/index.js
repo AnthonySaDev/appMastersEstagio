@@ -9,30 +9,11 @@ import Logo from '../Logo';
 
 export default function Header() {
 
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isNavOpen, setIsNavOpen] = useState(false);
+  const [isNavOpen, setIsNavOpen] = useState(true);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY;
-      const screenHeight = window.innerHeight;
-      const threshold = screenHeight - 100;
 
-      if (scrollPosition > threshold) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
   return (
-    <header className={`top-0 font-sans fixed w-full text-white text-xs tracking-widest z-50 items-center flex px-8 justify-around py-5 ${isScrolled ? 'bg-black transition-all duration-200 ease-in-out' : ''}`} style={{ backgroundImage: 'transparent' }}>
+    <header className={`top-0 font-sans fixed w-full text-white text-xs tracking-widest z-50 items-center flex px-8 justify-around py-5 bg-black/90`}>
       <div className="flex items-center gap-8 w-full md:px-5 justify-between">
         <motion.div
           initial={{ y: -400 }}
@@ -86,7 +67,6 @@ export default function Header() {
           className="space-y-2 "
           onClick={() => {
             setIsNavOpen((prev) => !prev)
-            setIsScrolled(true)
           }}
         >
           {!isNavOpen ?
@@ -120,7 +100,7 @@ export default function Header() {
         </div>
 
         {isNavOpen && (
-          <div className="showMenuNav">
+          <div className="showMenuNav bg-black/90">
             <div className="flex flex-col gap-5 text-right font-extrabold items-start justify-around min-h-[100px]">
               <Link href='/#home'>
                 <span
@@ -175,7 +155,7 @@ export default function Header() {
   top: 4rem;
   right: 0rem;
   color: white;
-  background: ${isScrolled ? '#00060e' : 'transparent'};
+  background:'black';
   z-index: 99;
   animation: fadeInDown 0.5s ease-in-out;
   transform-style: preserve-3d;
