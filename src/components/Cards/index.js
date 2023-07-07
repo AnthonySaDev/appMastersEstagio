@@ -3,11 +3,13 @@ import Link from 'next/link';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { AiFillCloseCircle, AiOutlineArrowUp } from 'react-icons/ai';
 import { IoListCircleOutline } from 'react-icons/io5';
-import { GenreFilter } from '../../utils/Filter';
-import { Partciles } from '../../utils/Particles';
-import SearchComponent from '../../utils/Search';
+import { GenreFilter } from '../Filter';
+import { Partciles } from '../Particles';
+import SearchComponent from '../Search';
 import CardSkeleton from '../CardSkeleton';
 import { GameCard } from '../gameCards';
+import { useRouter } from 'next/navigation';
+import { motion } from 'framer-motion';
 
 const Cards = ({ data }) => {
   const itemsPerPage = 6;
@@ -16,7 +18,8 @@ const Cards = ({ data }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedGenre, setSelectedGenre] = useState('all');
   const [isLoading, setIsLoading] = useState(true);
-  const [visible, setVisible] = useState(true);
+  const [visible, setVisible] = useState(false);
+  const router = useRouter();
 
   const filterData = useCallback((updatedData) => {
     if (searchTerm) {
@@ -127,13 +130,36 @@ const Cards = ({ data }) => {
       </div>
       {visible && (
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black/80 z-50">
-          <div className="bg-white p-8 rounded shadow-md relative">
-            <button onClick={closeModal} className="absolute top-0 right-0 p-2 m-2 cursor-pointer">
+          <div className="bg-white text-zinc-800 p-8 rounded shadow-md relative w-fit mx-auto text-center">
+            <button onClick={closeModal} className="absolute top-0 right-0 p-2 m-2 cursor-pointer bg-red-600 w-fit px-6 py-2 rounded-lg text-white font-bold">
               Close
             </button>
             <h2 className="text-xl font-bold mb-4">Hello there!</h2>
             <p>You need to sign in or register to edit items</p>
-            {/* Here you could add buttons for sign in or register actions */}
+            <div className="flex items-center justify-center gap-5">
+              <motion.button
+                initial={{ x: 500 }}
+                animate={{ x: 0 }}
+                transition={{ duration: 0.9 }}
+                onClick={() => {
+                  router.push('/login');
+                }}
+                className="flex items-center bg-gradient-to-r from-pink-600 to-purple-800 text-white font-bold py-2 px-4 rounded mt-4"
+              >
+                Login
+              </motion.button>
+              <motion.button
+                initial={{ x: -500 }}
+                animate={{ x: 0 }}
+                transition={{ duration: 0.9 }}
+                onClick={() => {
+                  router.push('/register');
+                }}
+                className="flex items-center bg-gradient-to-l from-pink-600 to-purple-800 text-white font-bold py-2 px-4 rounded mt-4"
+              >
+                Register
+              </motion.button>
+            </div>
           </div>
         </div>
       )}

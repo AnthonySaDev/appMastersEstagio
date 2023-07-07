@@ -5,7 +5,9 @@ import Head from 'next/head';
 import AuthProvider from '@/contexts/auth';
 import DataProvider from '@/contexts/data';
 import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import { Fira_Sans } from 'next/font/google'
+const Fira = Fira_Sans({ subsets: ['latin'], weight:'400' })
+
 export const metadata = {
   title: 'App Masters',
   description: 'Exame para Vaga de Estágio',
@@ -22,7 +24,7 @@ export default function RootLayout({ children }) {
             <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
             <link rel="manifest" href="/site.webmanifest" />
           </Head>
-          <body >
+          <body className={Fira.className}>
             <Header />
             {children}
             <ToastContainer

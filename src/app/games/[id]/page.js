@@ -1,11 +1,11 @@
 'use client'
 import HasError from '@/app/hasError';
-import HalfRating from '@/components/Rating';
 import { AuthContext } from '@/contexts/auth';
 import { DataContext } from '@/contexts/data';
 import { db } from '@/services/firebaseConnection';
 import { addFavorite } from '@/utils/AddFavorite';
 import { checkFavorite } from '@/utils/CheckFavorite';
+import HalfRating from '@/utils/Rating';
 import { collection, doc, setDoc } from 'firebase/firestore';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
@@ -28,10 +28,10 @@ export default function Games({ params }) {
 
   useEffect(() => {
     checkFavorite(favoriteId, user, setIsGameFavorited);
-}, [user, favoriteId, setIsGameFavorited]);
+  }, [user, favoriteId, setIsGameFavorited]);
 
 
-  
+
   const handleRating = async (rate) => {
     if (!user) {
       toast.warn('Você precisa estar autenticado para avaliar um jogo, acesse sua conta.');
@@ -105,7 +105,7 @@ export default function Games({ params }) {
                 </Link>
               </div>
               <div className='w-fit mx-auto'>
-                <HalfRating/>
+                <HalfRating />
               </div>
             </div>
             <div className="flex w-full justify-center items-center gap-4">
@@ -120,38 +120,47 @@ export default function Games({ params }) {
               <button
                 className={`flex items-center ${isGameFavorited ? 'bg-zinc-600' : 'bg-red-600 hover:bg-red-500'
                   } text-white font-bold py-2 px-4 rounded mt-4`}
-                onClick={()=>addFavorite(favoriteId, filteredData, user, setVisible, setIsGameFavorited)}
+                onClick={() => addFavorite(favoriteId, filteredData, user, setVisible, setIsGameFavorited)}
                 disabled={isGameFavorited}
               >
-                <FiHeart className="mr-2" color={isGameFavorited ? "red" : ""}  />
+                <FiHeart className="mr-2" color={isGameFavorited ? "red" : ""} />
                 {isGameFavorited ? 'Favorited' : 'Favorite'}
               </button>
 
             </div>
             {visible && (
-              <div className="w-full flex items-center justify-center gap-10 mt-5">
-                <motion.button
-                  initial={{ x: 500 }}
-                  animate={{ x: 0 }}
-                  transition={{ duration: 0.9 }}
-                  onClick={() => {
-                    router.push('/login');
-                  }}
-                  className="flex items-center bg-gradient-to-r from-pink-600 to-purple-800 text-white font-bold py-2 px-4 rounded mt-4"
-                >
-                  Login
-                </motion.button>
-                <motion.button
-                  initial={{ x: -500 }}
-                  animate={{ x: 0 }}
-                  transition={{ duration: 0.9 }}
-                  onClick={() => {
-                    router.push('/register');
-                  }}
-                  className="flex items-center bg-gradient-to-l from-pink-600 to-purple-800 text-white font-bold py-2 px-4 rounded mt-4"
-                >
-                  Register
-                </motion.button>
+              <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black/80 z-50">
+                <div className="bg-white text-zinc-800 p-8 rounded shadow-md relative w-fit mx-auto text-center">
+                  <button onClick={closeModal} className="absolute top-0 right-0 p-2 m-2 cursor-pointer bg-red-600 w-fit px-6 py-2 rounded-lg text-white font-bold">
+                    Close
+                  </button>
+                  <h2 className="text-xl font-bold mb-4">Hello there!</h2>
+                  <p>You need to sign in or register to edit items</p>
+                  <div className="flex items-center justify-center gap-5">
+                    <motion.button
+                      initial={{ x: 500 }}
+                      animate={{ x: 0 }}
+                      transition={{ duration: 0.9 }}
+                      onClick={() => {
+                        router.push('/login');
+                      }}
+                      className="flex items-center bg-gradient-to-r from-pink-600 to-purple-800 text-white font-bold py-2 px-4 rounded mt-4"
+                    >
+                      Login
+                    </motion.button>
+                    <motion.button
+                      initial={{ x: -500 }}
+                      animate={{ x: 0 }}
+                      transition={{ duration: 0.9 }}
+                      onClick={() => {
+                        router.push('/register');
+                      }}
+                      className="flex items-center bg-gradient-to-l from-pink-600 to-purple-800 text-white font-bold py-2 px-4 rounded mt-4"
+                    >
+                      Register
+                    </motion.button>
+                  </div>
+                </div>
               </div>
             )}
           </div>

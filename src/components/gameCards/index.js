@@ -1,15 +1,15 @@
   import { AuthContext } from "@/contexts/auth";
-  import { checkFavorite } from "@/utils/CheckFavorite";
-  import { motion } from "framer-motion";
-  import Image from "next/image";
-  import Link from "next/link";
-  import { useContext, useEffect, useState } from "react";
-  import { FaHeart, FaRegHeart } from "react-icons/fa";
-  import borda from '../../../public/borda.png';
-  import Button from "../Button";
-  import HalfRating from "../Rating";
-  import { addFavorite } from "@/utils/AddFavorite";
-  import { deleteFavorite } from "@/utils/DeleteFavorite";
+import { addFavorite } from "@/utils/AddFavorite";
+import { checkFavorite } from "@/utils/CheckFavorite";
+import { deleteFavorite } from "@/utils/DeleteFavorite";
+import { motion } from "framer-motion";
+import Image from "next/image";
+import Link from "next/link";
+import { useContext, useEffect, useState } from "react";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
+import borda from '../../../public/borda.png';
+import HalfRating from "../../utils/Rating";
+import Button from "../Button";
 
   export const GameCard = ({ item, filteredData, setVisible }) => {
     const { user } = useContext(AuthContext);
