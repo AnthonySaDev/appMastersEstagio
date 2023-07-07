@@ -9,7 +9,7 @@ import Logo from '../Logo';
 
 export default function Header() {
 
-  const [isNavOpen, setIsNavOpen] = useState(true);
+  const [isNavOpen, setIsNavOpen] = useState(false);
 
 
   return (
