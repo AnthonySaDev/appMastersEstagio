@@ -3,7 +3,8 @@ import FavoriteRedirect from '@/app/FavoritesRedirect';
 import { AuthContext } from '@/contexts/auth';
 import { DataContext } from '@/contexts/data';
 import { db } from '@/services/firebaseConnection';
-import { arrayRemove, doc, getDoc, updateDoc } from 'firebase/firestore';
+import { deleteFavorite } from '@/utils/DeleteFavorite';
+import { doc, getDoc } from 'firebase/firestore';
 import { useContext, useEffect, useState } from 'react';
 import { FaTrash } from 'react-icons/fa';
 import HasError from '../hasError';
@@ -32,6 +33,15 @@ export default function Favorites() {
     fetchData();
   }, [user]);
 
+
+  const handleDeleteFavorite = async (gameId) => {
+    const removedGame = await deleteFavorite(gameId, user);
+    if (removedGame) {
+      setFavorites((prevFavorites) => prevFavorites.filter((game) => game.id !== removedGame.id));
+    }
+  };
+
+
   if (loading) {
     return <Loading />;
   }
@@ -40,25 +50,6 @@ export default function Favorites() {
     return <FavoriteRedirect />;
   }
 
-  const deleteFavorite = async (gameId) => {
-    if (user) {
-      const docRef = doc(db, 'favorites', user.uid);
-      const docSnap = await getDoc(docRef);
-
-      if (docSnap.exists()) {
-        const gameToRemove = docSnap.data().favorites.find((game) => game.id === gameId);
-        
-        if (gameToRemove) {
-          await updateDoc(docRef, {
-            favorites: arrayRemove(gameToRemove)
-          });
-          
-          // Now update the local state
-          setFavorites((prevFavorites) => prevFavorites.filter((game) => game.id !== gameId));
-        }
-      }
-    }
-  };
   
   if (hasError) {
     return (
@@ -90,7 +81,7 @@ export default function Favorites() {
                   <h1 className=' text-red-600 text-lg'>{game.title}</h1>
                   <p>{game.short_description}</p>
                 
-                  <button onClick={() => deleteFavorite(game.id)} className='flex w-fit mx-auto rounded text-red-600 justify-center items-center gap-1'>
+                  <button onClick={() => handleDeleteFavorite(game.id)} className='flex w-fit mx-auto rounded text-red-600 justify-center items-center gap-1'>
                     Remove Favorite
                     <FaTrash />
                   </button>

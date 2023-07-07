@@ -3,10 +3,10 @@ import Link from 'next/link';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { AiFillCloseCircle, AiOutlineArrowUp } from 'react-icons/ai';
 import { IoListCircleOutline } from 'react-icons/io5';
+import { GenreFilter } from '../../utils/Filter';
+import { Partciles } from '../../utils/Particles';
+import SearchComponent from '../../utils/Search';
 import CardSkeleton from '../CardSkeleton';
-import { GenreFilter } from '../Filter';
-import { Partciles } from '../Particles';
-import SearchComponent from '../Search';
 import { GameCard } from '../gameCards';
 
 const Cards = ({ data }) => {
@@ -16,6 +16,7 @@ const Cards = ({ data }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedGenre, setSelectedGenre] = useState('all');
   const [isLoading, setIsLoading] = useState(true);
+  const [visible, setVisible] = useState(true);
 
   const filterData = useCallback((updatedData) => {
     if (searchTerm) {
@@ -61,6 +62,10 @@ const Cards = ({ data }) => {
     return () => clearTimeout(timer);
   }, []);
 
+  const closeModal = () => {
+    setVisible(false);
+  }
+
   return (
     <div className="md:py-28 py-10" id="games">
       <Partciles />
@@ -95,7 +100,7 @@ const Cards = ({ data }) => {
             ))
             : visibleData.length > 0 ? (
               visibleData.map((item) => (
-                <GameCard item={item} key={item.id} />
+                <GameCard item={item} key={item.id} filteredData={visibleData} setVisible={setVisible} />
               ))
             ) : (
               <div className="text-white text-center py-20">
@@ -120,6 +125,18 @@ const Cards = ({ data }) => {
           <AiOutlineArrowUp size={30} />
         </Link>
       </div>
+      {visible && (
+        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black/80 z-50">
+          <div className="bg-white p-8 rounded shadow-md relative">
+            <button onClick={closeModal} className="absolute top-0 right-0 p-2 m-2 cursor-pointer">
+              Close
+            </button>
+            <h2 className="text-xl font-bold mb-4">Hello there!</h2>
+            <p>You need to sign in or register to edit items</p>
+            {/* Here you could add buttons for sign in or register actions */}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

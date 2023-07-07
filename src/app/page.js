@@ -7,6 +7,7 @@ import { FaArrowCircleDown } from 'react-icons/fa';
 import background from '../../public/background.jpg';
 import HasError from './hasError';
 import { DataContext } from '@/contexts/data';
+import Loading from './loading';
 
 export default function Home() {
   const { data, hasError, loading } = useContext(DataContext);
@@ -16,7 +17,8 @@ export default function Home() {
     )
   }
   return (
-    <div>
+    <>
+   {loading ? <Loading /> : ( <div>
       <div className='font-sans'>
 
         <main id='home'>
@@ -37,14 +39,16 @@ export default function Home() {
                   className="text-[#f831ff] animate-pulse">experiencie.</motion.span> Join the excitement!
                 </p>
                 <a href='#games'>
-                  <motion.button 
-                   initial={{ y: 100 }} 
-                   animate={{  y: 0  }} 
-                   transition={{ y: { duration: 0.5 } }}
+                  <button 
+                 
                   className='flex whitespace-nowrap items-center justify-center gap-4 text-left w-fit mt-10 pl-6 pr-2 py-2 bg-gradient-to-l from-pink-600 to-purple-800 text-white rounded-lg shadow hover:bg-purple-400 hover:brightness-125 transition-all duration-700'>
-                    START NOW
+                    <motion.h1
+                      initial={{ y: -25 }} 
+                      animate={{  y: 0  }} 
+                      transition={{ y: { duration: 0.5 } }}
+                    >START NOW</motion.h1>
                     <FaArrowCircleDown className='cursor-pointer P-3' size={32} />
-                  </motion.button>
+                  </button>
                 </a>
               </span>
             </div>
@@ -52,6 +56,7 @@ export default function Home() {
           <Cards data={data} />
         </main>
       </div>
-    </div>
+    </div>)}
+    </>
   );
 }

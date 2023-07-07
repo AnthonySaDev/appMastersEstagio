@@ -4,7 +4,9 @@ import HalfRating from '@/components/Rating';
 import { AuthContext } from '@/contexts/auth';
 import { DataContext } from '@/contexts/data';
 import { db } from '@/services/firebaseConnection';
-import { arrayUnion, collection, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
+import { addFavorite } from '@/utils/AddFavorite';
+import { checkFavorite } from '@/utils/CheckFavorite';
+import { collection, doc, setDoc } from 'firebase/firestore';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -25,41 +27,11 @@ export default function Games({ params }) {
   const favoriteId = Number(params.id);
 
   useEffect(() => {
-    const savedGames = JSON.parse(localStorage.getItem('@games')) || [];
-    const isFavorited = savedGames.some((savedGame) => savedGame.id === favoriteId);
-    setIsGameFavorited(isFavorited);
-  }, [favoriteId]);
+    checkFavorite(favoriteId, user, setIsGameFavorited);
+}, [user, favoriteId, setIsGameFavorited]);
 
-  const addFavorite = async () => {
-    if (!user) {
-      toast.warn('You need to be authenticated to favorite a game, access your account.');
-      setVisible(true);
-      return;
-    }
 
-    const gameToAdd = filteredData.find((game) => game.id === favoriteId);
-
-    try {
-      const docRef = doc(collection(db, 'favorites'), user.uid);
-      const docSnap = await getDoc(docRef);
-
-      if (docSnap.exists()) {
-        await updateDoc(docRef, {
-          favorites: arrayUnion(gameToAdd),
-        });
-      } else {
-        await setDoc(docRef, {
-          favorites: [gameToAdd],
-        });
-      }
-
-      setIsGameFavorited(true);
-      toast.success('Game saved successfully.');
-    } catch (error) {
-
-    }
-  };
-
+  
   const handleRating = async (rate) => {
     if (!user) {
       toast.warn('Você precisa estar autenticado para avaliar um jogo, acesse sua conta.');
@@ -148,10 +120,10 @@ export default function Games({ params }) {
               <button
                 className={`flex items-center ${isGameFavorited ? 'bg-zinc-600' : 'bg-red-600 hover:bg-red-500'
                   } text-white font-bold py-2 px-4 rounded mt-4`}
-                onClick={addFavorite}
+                onClick={()=>addFavorite(favoriteId, filteredData, user, setVisible, setIsGameFavorited)}
                 disabled={isGameFavorited}
               >
-                <FiHeart className="mr-2" />
+                <FiHeart className="mr-2" color={isGameFavorited ? "red" : ""}  />
                 {isGameFavorited ? 'Favorited' : 'Favorite'}
               </button>
 
