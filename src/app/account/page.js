@@ -14,12 +14,13 @@ import HasError from '../hasError';
 import Loading from './loading';
 export default function Account() {
 
-  const { user, signOut, setUser, storageUser } = useContext(AuthContext)
+  const { user, setUser, storageUser } = useContext(AuthContext)
   const { hasError } = useContext(DataContext);
   const [name, setName] = useState(user && user.name);
   const [avatarUrl, setAvatarUrl] = useState(user && user.avatarUrl);
   const [imageAvatar, setImageAvatar] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [text, setText] = useState('Save');
   useEffect(() => {
     if (user) {
 
@@ -30,6 +31,7 @@ export default function Account() {
 
   async function handleSubmit(e) {
     e.preventDefault();
+    setText("Loading...")
     const usersRef = doc(db, "users", user.uid);
     let updatedData = {};
 
@@ -48,6 +50,7 @@ export default function Account() {
       setUser(data);
       storageUser(data);
       toast.success("Success!");
+      setText("Save");
     } catch (error) {
     }
   }
@@ -97,9 +100,7 @@ export default function Account() {
 
     return null;
   }
-  if (loading) {
-    return <Loading />;
-  }
+ 
 
   if (hasError) {
     return (
@@ -111,11 +112,7 @@ export default function Account() {
     return <AccountRedirect />;
   }
   return (
-    <div className="flex flex-col h-screen bg-gradient-to-r text-white">
-      <div className='w-full'>
-
-      </div>
-      <h1 className='text-xl text-orange-600 mt-20 md:mt-24'>Hello, {user.name}</h1>
+    <div className="flex flex-col h-screen items-center justify-center mt-10 bg-gradient-to-r text-white">
       <div className="md:w-6/12 mx-auto mt-10 px-4 py-8 bg-gray-800 rounded-lg shadow-lg">
         <h1 className="text-4xl font-bold mb-8 flex items-center gap-4 justify-center text-orange-600 text-center">Edit Profile <FiSettings size={25} />
         </h1>
@@ -151,12 +148,9 @@ export default function Account() {
             type="submit"
             className="w-full px-6 py-3 bg-gradient-to-r from-orange-800 to-orange-700 text-white font-bold rounded-lg shadow hover:bg-orange-400 hover:brightness-125 transition-all duration-700"
           >
-            Save
+            {text}
           </button>
         </form>
-      </div>
-      <div className='py-10 flex items-center justify-center'>
-          <button onClick={signOut} className='mt-20 bg-orange-600 w-fit mx-auto px-6 font-semibold p-3 rounded-lg'>LogOut</button>
       </div>
     </div>
   );

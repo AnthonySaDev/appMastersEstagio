@@ -20,7 +20,7 @@ export default function AccountRedirect() {
         To access your account, please{' '}
         <div className="flex flex-col w-full justify-around">
           <p className='flex w-full justify-around'>
-          <Link href="/login" className="underline text-blue-600">
+          <Link href="/auth" className="underline text-blue-600">
             log in
           </Link>{' '}
           or{' '}

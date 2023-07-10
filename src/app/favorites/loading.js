@@ -4,6 +4,7 @@ import { FaCircle } from 'react-icons/fa';
 export default function Loading() {
   return (
     <div className="flex flex-col items-center justify-center h-screen">
+      
       <main className="flex items-center justify-center">
         <div className="flex gap-2 items-center">
           <h1 className="text-3xl text-white font-extrabold mb-4">Loading</h1>

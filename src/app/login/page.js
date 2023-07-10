@@ -1,15 +1,20 @@
 'use client'
-import Header from '@/components/Header';
 import { AuthContext } from '@/contexts/auth';
 import { useRouter } from 'next/navigation';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { signIn, loadingAuth } = useContext(AuthContext);
+  const { signIn, loadingAuth, user } = useContext(AuthContext);
   const router = useRouter();
 
+  useEffect(() => {
+    if (user) {
+      router.push('/');
+    }
+  }, []);
+  
   function handleLogin(e) {
     e.preventDefault();
     if (email !== '' && password !== '') {

@@ -1,8 +1,7 @@
 'use client'
-import Header from '@/components/Header';
 import { AuthContext } from '@/contexts/auth';
 import { useRouter } from 'next/navigation';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 export default function Register() {
@@ -10,8 +9,14 @@ export default function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const { signUp, loadingAuth } = useContext(AuthContext);
+  const { signUp, loadingAuth, user } = useContext(AuthContext);
   const router = useRouter();
+ 
+  useEffect(() => {
+    if (user) {
+      router.push('/');
+    }
+  }, []);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -92,7 +97,7 @@ export default function Register() {
                    animate={{x:0}}
                    transition={{duration:.9}}
                    onClick={()=>{
-                    router.push('/login')
+                    router.push('/auth')
                   }}
                   className='flex items-center mx-auto bg-gradient-to-l from-pink-600 to-purple-800 text-white font-bold py-2 px-4 rounded mt-4'>Login</button>
       </div>

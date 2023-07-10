@@ -1,16 +1,17 @@
 import { db } from "@/services/firebaseConnection";
 import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
 export async function addFavorite(gameId, filteredData, user, setVisible, setIsGameFavorited, value) {
+
   if (!user) {
     toast.warn("You need to be authenticated to favorite a game, access your account.");
     setVisible(true);
-    return;
+    return 
   }
 
-  // Se o rating não foi definido pelo usuário, setamos como zero e informamos ao usuário.
+
   if (value === null || value === undefined || value === 0) {
     const confirmToast = toast.warn(
       <>

@@ -1,7 +1,7 @@
 import { db } from "@/services/firebaseConnection";
 import { doc, getDoc } from "firebase/firestore";
 
-const checkFavorite = async (favoriteId, user, setIsGameFavorited, setValue) => {
+const checkFavorite = async (favoriteId, user, setIsGameFavorited, setValue,setFill,setTextButton) => {
   if (user) {
     const docRef = doc(db, 'favorites', user.uid);
     const docSnap = await getDoc(docRef);
@@ -14,11 +14,15 @@ const checkFavorite = async (favoriteId, user, setIsGameFavorited, setValue) => 
       if (foundGame) {
         setIsGameFavorited(true);
         setValue(foundGame.rate);
+        setFill(true);
+        setTextButton("Remove Favorite")
       } else {
         setIsGameFavorited(false);
+        setTextButton("Save Changes");
       }
     } else {
       setIsGameFavorited(false);
+      setTextButton("Save Changes");
     }
   }
 };

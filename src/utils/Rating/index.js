@@ -7,7 +7,7 @@ import { checkFavorite } from "../CheckFavorite";
 import { deleteFavorite } from "../DeleteFavorite";
 
 const labels = {
-    0.0 : 'Has no avaliation',
+    0.0: 'Has no avaliation',
     1.0: "Bad",
     2.0: "More or Less",
     3.0: "Cool",
@@ -15,20 +15,21 @@ const labels = {
     5.0: "Best Game",
 
 }
-
 export default function HalfRating({ isGameFavorited, setIsGameFavorited, value, setValue, gameId, filteredData, user, setVisible, readOnly }) {
     const [hover, setHover] = useState(-1);
+    const [fill, setFill] = useState(false);
+    const [textButton, setTextButton] = useState("Save Changes");
 
     useEffect(() => {
-        checkFavorite(gameId, user, setIsGameFavorited, setValue);
-      }, [gameId, user]);
+        checkFavorite(gameId, user, setIsGameFavorited, setValue, setFill, setTextButton);
+    }, [gameId, user]);
 
     const handleFavoriteClick = async () => {
         if (isGameFavorited) {
             const removedGame = await deleteFavorite(gameId, user);
-            setValue(0);
             if (removedGame) {
                 setIsGameFavorited(false);
+                setValue(0);
             }
         } else {
             await addFavorite(gameId, filteredData, user, setVisible, setIsGameFavorited, value);
@@ -61,10 +62,18 @@ export default function HalfRating({ isGameFavorited, setIsGameFavorited, value,
             </Stack>
             <button
                 className={`flex items-center bg-transparent text-white font-bold py-5 px-3 rounded text-base`}
+                onClick={() => setFill(!fill)}
+            >
+                {fill ? <FaHeart size={34} color="red" /> : <FaRegHeart size={34} color="white" />}
+            </button>
+            <button
                 onClick={handleFavoriteClick}
-              >
-                {isGameFavorited ? <FaHeart size={34} color="red"/> : <FaRegHeart size={34} color="white"/>}
-              </button>
+                disabled={!fill}
+                className={`flex items-center font-bold py-2 px-4 rounded mt-4 ${fill ? 'bg-blue-500' : 'bg-gray-500'} text-white`}>
+                {fill ? textButton : '' }
+            </button>
         </div>
     );
 }
+
+

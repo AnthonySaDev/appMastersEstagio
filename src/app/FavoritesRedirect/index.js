@@ -22,7 +22,7 @@ export default function FavoriteRedirect() {
                   register
                 </Link>{' '}
                 or{' '}
-                <Link href="/login" className="underline text-blue-600">
+                <Link href="/auth" className="underline text-blue-600">
                   login
                 </Link>
               </p>

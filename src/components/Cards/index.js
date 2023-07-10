@@ -1,15 +1,15 @@
 'use client'
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { AiFillCloseCircle, AiOutlineArrowUp } from 'react-icons/ai';
 import { IoListCircleOutline } from 'react-icons/io5';
-import { GenreFilter } from '../Filter';
-import { Partciles } from '../Particles';
-import SearchComponent from '../Search';
 import CardSkeleton from '../CardSkeleton';
+import { GenreFilter } from '../Filter';
+import Modal from '../Modal';
+import { ParticlesComponent } from '../Particles';
+import SearchComponent from '../Search';
 import { GameCard } from '../gameCards';
-import { useRouter } from 'next/navigation';
-import { motion } from 'framer-motion';
 
 const Cards = ({ data }) => {
   const itemsPerPage = 6;
@@ -71,7 +71,7 @@ const Cards = ({ data }) => {
 
   return (
     <div className="md:py-28 py-10" id="games">
-      <Partciles />
+      <ParticlesComponent />
       <div className="flex justify-center relative items-end">
         <SearchComponent onSearch={handleSearch} />
         <div
@@ -95,7 +95,7 @@ const Cards = ({ data }) => {
           )}
         </div>
       </div>
-        <h1 className='text-center font-semibold my-3 hidden lg:flex'>Place your cursor over the card 😉</h1>
+        <h1 className='text-center font-semibold my-5 hidden lg:flex items-center justify-center'>Place your cursor over the card 😉</h1>
         <h1 className='text-center font-semibold my-3 lg:hidden'>Press the card 😉</h1>
       <div>
         <div className="grid gap-20 justify-center items-center mt-10 w-9/12 mx-auto sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
@@ -130,41 +130,7 @@ const Cards = ({ data }) => {
           <AiOutlineArrowUp size={30} />
         </Link>
       </div>
-      {visible && (
-        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black/80 z-50">
-          <div className="bg-white text-zinc-800 p-8 rounded shadow-md relative w-fit mx-auto text-center">
-            <button onClick={closeModal} className="absolute top-0 right-0 p-2 m-2 cursor-pointer bg-red-600 w-fit px-6 py-2 rounded-lg text-white font-bold">
-              Close
-            </button>
-            <h2 className="text-xl font-bold mb-4">Hello there!</h2>
-            <p>You need to sign in or register to edit items</p>
-            <div className="flex items-center justify-center gap-5">
-              <motion.button
-                initial={{ x: 500 }}
-                animate={{ x: 0 }}
-                transition={{ duration: 0.9 }}
-                onClick={() => {
-                  router.push('/login');
-                }}
-                className="flex items-center bg-gradient-to-r from-pink-600 to-purple-800 text-white font-bold py-2 px-4 rounded mt-4"
-              >
-                Login
-              </motion.button>
-              <motion.button
-                initial={{ x: -500 }}
-                animate={{ x: 0 }}
-                transition={{ duration: 0.9 }}
-                onClick={() => {
-                  router.push('/register');
-                }}
-                className="flex items-center bg-gradient-to-l from-pink-600 to-purple-800 text-white font-bold py-2 px-4 rounded mt-4"
-              >
-                Register
-              </motion.button>
-            </div>
-          </div>
-        </div>
-      )}
+      {visible && <Modal closeModal={closeModal}/>}
     </div>
   );
 };

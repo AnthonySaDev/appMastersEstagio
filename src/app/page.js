@@ -12,22 +12,21 @@ import Loading from './loading';
 export default function Home() {
   const { data, hasError, loading } = useContext(DataContext);
 
-  if(loading){
-    return (
-      <Loading />
-    )
-  }
-
   if (hasError) {
     return (
       <HasError />
     )
   }
-  return (
-    <>
-   {loading ? <Loading /> : ( <div>
-      <div className='font-sans'>
 
+  if (loading) {
+    return (
+      <Loading />
+    )
+  }
+
+  return (
+    <div>
+      <div className='font-sans'>
         <main id='home'>
           <div className='h-screen relative w-full z-40'>
             <Image
@@ -40,20 +39,25 @@ export default function Home() {
                 <p className="md:text-[2rem] text-2xl brightness-200">
                   Unleash your gaming potential. Level up your{" "}
                   <motion.span 
-                  initial={{ opacity: 0 }} 
-                  animate={{  opacity: 1  }} 
-                  transition={{ y: { duration: 0.5 } }}
-                  className="text-[#f831ff] animate-pulse">experiencie.</motion.span> Join the excitement!
+                    initial={{ opacity: 0 }} 
+                    animate={{  opacity: 1  }} 
+                    transition={{ y: { duration: 0.5 } }}
+                    className="text-[#f831ff] animate-pulse"
+                  >
+                    experiencie.
+                  </motion.span> Join the excitement!
                 </p>
                 <a href='#games'>
                   <button 
-                 
-                  className='flex whitespace-nowrap items-center justify-center gap-4 text-left w-fit mt-10 pl-6 pr-2 py-2 bg-gradient-to-l from-pink-600 to-purple-800 text-white rounded-lg shadow hover:bg-purple-400 hover:brightness-125 transition-all duration-700'>
+                    className='flex whitespace-nowrap items-center justify-center gap-4 text-left w-fit mt-10 pl-6 pr-2 py-2 bg-gradient-to-l from-pink-600 to-purple-800 text-white rounded-lg shadow hover:bg-purple-400 hover:brightness-125 transition-all duration-700'
+                  >
                     <motion.h1
                       initial={{ y: -25 }} 
                       animate={{  y: 0  }} 
                       transition={{ y: { duration: 0.5 } }}
-                    >START NOW</motion.h1>
+                    >
+                      START NOW
+                    </motion.h1>
                     <FaArrowCircleDown className='cursor-pointer P-3' size={32} />
                   </button>
                 </a>
@@ -63,7 +67,6 @@ export default function Home() {
           <Cards data={data} />
         </main>
       </div>
-    </div>)}
-    </>
+    </div>
   );
 }
