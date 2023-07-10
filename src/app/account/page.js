@@ -31,19 +31,23 @@ export default function Account() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    setText("Loading...")
+    setText("Loading...");
     const usersRef = doc(db, "users", user.uid);
     let updatedData = {};
-
+  
     if (name !== user.name) {
       updatedData.name = name;
+    } else {
+      updatedData.name = user.name; 
     }
-
+  
     if (avatar !== user.avatarUrl) {
       const imageUrl = await handleUpload();
       updatedData.avatarUrl = imageUrl;
+    } else {
+      updatedData.avatarUrl = user.avatarUrl; 
     }
-
+  
     try {
       await setDoc(usersRef, updatedData);
       const data = { ...user, ...updatedData };
@@ -54,7 +58,7 @@ export default function Account() {
     } catch (error) {
     }
   }
-
+  
 
   function handleFile(e) {
 
