@@ -16,7 +16,7 @@ export function setupApi() {
       const { response } = error;
       const status = response ? response.status : null;
       if ([500, 502, 503, 504, 507, 508, 509].includes(status)) {
-        toast.error('The server failed to respond, please try reloading the page');
+        toast.error('The server failed to respond, please try reloading the page, error: '+ status);
       } else {
         toast.warn("The server couldn't respond for now, please try again later");
       }

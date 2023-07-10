@@ -7,7 +7,6 @@ import { IoListCircleOutline } from 'react-icons/io5';
 import CardSkeleton from '../../../components/CardSkeleton';
 import { GenreFilter } from '../../../components/Filter';
 import Modal from '../../../components/Modal';
-import { Partciles } from '../../../components/Particles';
 import SearchComponent from '../../../components/Search';
 import { GameCard } from '../../../components/gameCards';
 
@@ -71,7 +70,6 @@ const Cards = ({ data }) => {
 
   return (
     <div className="md:py-28 py-10" id="games">
-      <Partciles />
       <div className="flex justify-center relative items-end">
         <SearchComponent onSearch={handleSearch} />
         <div
