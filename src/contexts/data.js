@@ -20,7 +20,7 @@ function DataProvider({ children }){
     };
 
     fetchData();
-    setLoading(true);
+    setLoading(false);
   }, []);
 
   return (

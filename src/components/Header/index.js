@@ -19,13 +19,13 @@ export default function Header() {
   },[user])
   return (
     <header className={`top-0 font-sans fixed w-full text-white text-xs tracking-widest z-50 items-center flex px-8 justify-around py-5 bg-black/90`}>
-      <div className="flex items-center gap-8 w-full md:px-5 justify-between">
+      <div className="flex items-center gap-8 w-full px-2 lg:px-5 justify-between relative">
 
         <motion.div
           initial={{ y: -400 }}
           animate={{ y: 0 }}
           transition={{ duration: 1.5 }}
-          className=' w-2/4 lg:w-[220px]'
+          className=' w-5/12 lg:w-[220px]'
         >
           <Link href="/#home" className={'brightness-[4]'}>
             <Logo />
@@ -36,29 +36,29 @@ export default function Header() {
           initial={{ x: 800 }}
           animate={{ x: 0 }}
           transition={{ duration: 2 }}
-          className=" hidden w-8/12 lg:flex items-center font-extrabold justify-between gap-20 text-sm">
+          className=" hidden w-8/12 xl:flex items-center font-extrabold justify-between gap-20 text-sm">
           <div className='flex gap-20 items-center justify-center'>
             <Link href='/#home' className="hover:text-green-600 transition-colors duration-300 w-fit whitespace-nowrap flex items-center gap-2 " >
               <FaHome size={25} />
-              <p className=" cursor-pointer ">
+              <p className=" cursor-pointer  ">
                 HOME
               </p>
             </Link>
             <Link href='/#games' className="hover:text-pink-600 transition-colors duration-300 w-fit whitespace-nowrap flex items-center gap-2">
               <IoGameController size={25} />
-              <p className=" cursor-pointer ">
+              <p className=" cursor-pointer  ">
                 GAMES
               </p>
             </Link>
             <Link href='/favorites' className="hover:text-red-500  w-fit whitespace-nowrap flex items-center gap-2" >
               <FaHeart className='transition-colors duration-300' size={25} />
-              <p className="transition-colors duration-300 cursor-pointer ">
+              <p className="transition-colors duration-300 cursor-pointer  ">
                 FAVORITES
               </p>
             </Link>
           </div>
           <div>
-            <button onClick={() => setIsVisible(!isVisible)} className='relative w-28 '>
+            <button onClick={() => setIsVisible(!isVisible)} className='relative w-32 '>
               <span
                 className="hover:text-orange-600 transition-colors duration-300 w-fit whitespace-nowrap flex items-center gap-6"
               >
@@ -77,7 +77,11 @@ export default function Header() {
                 <p className="cursor-pointer font-bold">{!user ? "ACCOUNT" : user.name}</p>
               </span>
               {isVisible &&
-                <div className='absolute text-lg w-full bg-black/90'>
+                <motion.div 
+                initial={{ y: -200 }}
+                animate={{ y: 0 }}
+                transition={{ duration: 0.5 }}
+                className='absolute text-xl w-full px-2 py-4 bg-black/90'>
                   {user ?
                     <div className='flex my-10 flex-col items-center justify-center gap-5  font-bold'>
                       <Link href='/account' className='hover:text-orange-600 transition-colors duration-300'>Edit Credentials</Link>
@@ -87,20 +91,20 @@ export default function Header() {
                     <div className='flex flex-col items-center justify-center gap-2 font-bold'>
                       <Link
                         href='/auth'
-                        className="flex items-center justify-center text-center bg-gradient-to-r from-pink-600 to-purple-800 text-white font-bold py-2 px-4 rounded mt-4"
+                        className="flex items-center justify-center text-center bg-gradient-to-r from-pink-600 to-purple-800 text-white font-bold py-2 rounded mt-4 w-24 text-sm"
                       >
                         Login
                       </Link>
                       <Link
                         href='/register'
-                        className="flex items-center justify-center text-center bg-gradient-to-l from-pink-600 to-purple-800 text-white font-bold py-2 px-4 rounded mt-4"
+                        className="flex items-center justify-center text-center bg-gradient-to-l from-pink-600 to-purple-800 text-white font-bold py-2 rounded mt-4 w-24 text-sm"
                       >
                         Register
                       </Link>
                     </div>
                   }
 
-                </div>
+                </motion.div>
               }
             </button>
           </div>
@@ -112,7 +116,7 @@ export default function Header() {
         initial={{ x: 100 }}
         animate={{ x: 0 }}
         transition={{ duration: 1.5 }}
-        className="flex text-right lg:hidden transition-all delay-100 cursor-pointer">
+        className="flex xl:hidden text-center transition-all delay-100 cursor-pointer">
         <div
           className="space-y-2 "
           onClick={() => {
@@ -149,8 +153,8 @@ export default function Header() {
         </div>
 
         {isNavOpen && (
-          <div className="showMenuNav w-full flex items-center justify-center gap-20 bg-black/90">
-            <div className="flex flex-col gap-5 text-right font-extrabold items-start justify-around min-h-[100px]">
+          <div className="showMenuNav w-full flex items-center justify-center bg-black/90">
+            <div className="flex flex-col gap-5 text-center font-extrabold items-start w-1/4 mx-auto justify-around min-h-[100px]">
               <Link href='/#home'>
                 <span
                   className="hover:text-green-600 transition-colors duration-300 w-fit whitespace-nowrap flex items-center gap-2"
@@ -180,7 +184,7 @@ export default function Header() {
               </Link>
 
             </div>
-            <div>
+            <div className="w-1/4 mx-auto">
               <button onClick={() => setIsVisible(!isVisible)} className='relative'>
                 <span
                   className="hover:text-orange-600 transition-colors duration-300 w-fit whitespace-nowrap flex items-center gap-2"
@@ -232,40 +236,7 @@ export default function Header() {
         )}
       </motion.section>
 
-      <style jsx>{`
-.hideMenuNav {
-  display: none;
-}
 
-.showMenuNav {
-  display: flex;
-  position: absolute;
-  top: 4rem;
-  right: 0rem;
-  color: white;
-  background:'black';
-  z-index: 99;
-  animation: fadeInDown 0.5s ease-in-out;
-  transform-style: preserve-3d;
-  backface-visibility: hidden;
-  justify-content: flex-start;
-  padding: 1.5rem;
-  text-align: left;
-}
-
-
-@keyframes fadeInDown {
-  0% {
-    opacity: 0;
-    transform: translateY(-50px) rotateX(-90deg);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) rotateX(0);
-  }
-}
-
-      `}</style>
 
     </header>
   );

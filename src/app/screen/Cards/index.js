@@ -1,6 +1,5 @@
 'use client'
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { AiFillCloseCircle, AiOutlineArrowUp } from 'react-icons/ai';
 import { IoListCircleOutline } from 'react-icons/io5';
@@ -18,7 +17,7 @@ const Cards = ({ data }) => {
   const [selectedGenre, setSelectedGenre] = useState('all');
   const [isLoading, setIsLoading] = useState(true);
   const [visible, setVisible] = useState(false);
-  const router = useRouter();
+  const [visibleCategory, setVisibleCategory] = useState(false);
 
   const filterData = useCallback((updatedData) => {
     if (searchTerm) {
@@ -39,6 +38,7 @@ const Cards = ({ data }) => {
   const handleFilter = useCallback((filtered) => {
     setSelectedGenre(filtered);
     setIsOpen(false);
+    setVisibleCategory(true);
     setCurrentPage(1);
   }, []);
 
@@ -70,31 +70,40 @@ const Cards = ({ data }) => {
 
   return (
     <div className="md:py-28 py-10" id="games">
-      <div className="flex justify-center relative items-end">
-        <SearchComponent onSearch={handleSearch} />
-        <div
-          className="cursor-pointer filter rounded-full p-2 "
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          {isOpen ? (
-            <AiFillCloseCircle size={25} />
-          ) : (
-            <IoListCircleOutline size={25} />
-          )}
+      <div className="flex flex-col justify-center items-center text-center relative ">
+        <div className="flex items-end justify-center">
+          <SearchComponent onSearch={handleSearch} />
+          <div
+            className="cursor-pointer filter rounded-full p-2 "
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            {isOpen ? (
+
+              <AiFillCloseCircle size={25} />
+            ) : (
+              <IoListCircleOutline size={25} />
+            )}
+          </div>
+          <div className="absolute top-[8.9rem] z-20">
+            {toggleIsOpen && (
+              <GenreFilter
+                selectedGenre={selectedGenre}
+                handleFilter={handleFilter}
+                genres={genres}
+                isOpen={isOpen}
+              />
+            )}
+          </div>
         </div>
-        <div className="absolute top-[8.9rem] z-20">
-          {toggleIsOpen && (
-            <GenreFilter
-              selectedGenre={selectedGenre}
-              handleFilter={handleFilter}
-              genres={genres}
-              isOpen={isOpen}
-            />
-          )}
+        <div className="w-full flex items-center justify-center text-center">
+        {selectedGenre !== 'all' && visibleCategory && <div className="w-fit mx-auto my-4 font-bold flex filter px-2 rounded-lg items-center justify-center gap-3">
+          <h1>{selectedGenre}</h1>
+          <button onClick={() => setSelectedGenre('all')} className="w-5 h-5 rounded-full bg-zinc-300/80 text-red-500 text-sm p-2 text-center flex items-center justify-center">X</button>
+        </div>}
         </div>
       </div>
-        <h1 className='text-center font-semibold my-5 hidden lg:flex items-center justify-center'>Place your cursor over the card 😉</h1>
-        <h1 className='text-center font-semibold my-3 lg:hidden'>Press the card 😉 </h1>
+      <h1 className='text-center font-semibold my-5 hidden lg:flex items-center justify-center'>Place your cursor over the card 😉</h1>
+      <h1 className='text-center font-semibold my-3 lg:hidden'>Press the card 😉 </h1>
       <div>
         <div className="grid gap-20 justify-center items-center mt-10 w-9/12 mx-auto sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
           {isLoading
@@ -128,7 +137,7 @@ const Cards = ({ data }) => {
           <AiOutlineArrowUp size={30} />
         </Link>
       </div>
-      {visible && <Modal closeModal={closeModal}/>}
+      {visible && <Modal closeModal={closeModal} />}
     </div>
   );
 };

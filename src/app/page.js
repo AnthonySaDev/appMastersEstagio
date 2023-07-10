@@ -34,6 +34,7 @@ export default function Home() {
               alt='background'
               className='h-screen w-full object-cover brightness-50 opacity-40'
             />
+          
             <div className='absolute top-0  h-full md:w-7/12 mx-auto'>
               <span className="flex flex-col gap-4 md:items-start items-end  justify-center h-full font-extrabold md:w-5/12 w-9/12 mx-auto">
                 <p className="md:text-[2rem] text-2xl brightness-200">
@@ -51,17 +52,15 @@ export default function Home() {
                   <button 
                     className='flex whitespace-nowrap items-center justify-center gap-4 text-left w-fit mt-10 pl-6 pr-2 py-2 bg-gradient-to-l from-pink-600 to-purple-800 text-white rounded-lg shadow hover:bg-purple-400 hover:brightness-125 transition-all duration-700'
                   >
-                    <motion.h1
-                      initial={{ y: -25 }} 
-                      animate={{  y: 0  }} 
-                      transition={{ y: { duration: 0.5 } }}
+                    <h1
                     >
                       START NOW
-                    </motion.h1>
+                    </h1>
                     <FaArrowCircleDown className='cursor-pointer P-3' size={32} />
                   </button>
                 </a>
               </span>
+            
             </div>
           </div>
           <Cards data={data} />
