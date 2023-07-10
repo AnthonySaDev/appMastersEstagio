@@ -6,12 +6,12 @@ import { DataContext } from '@/contexts/data';
 import { db } from '@/services/firebaseConnection';
 import { StarBorder } from '@mui/icons-material';
 import { doc, getDoc } from 'firebase/firestore';
+import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useContext, useEffect, useState } from 'react';
+import { BsSortDown, BsSortUp } from 'react-icons/bs';
 import HasError from '../hasError';
 import Loading from './loading';
-import { BsSortDown, BsSortUp } from 'react-icons/bs';
-import { motion } from 'framer-motion';
 
 export default function Favorites() {
   const { user } = useContext(AuthContext);
@@ -134,22 +134,6 @@ export default function Favorites() {
                       transition={{ duration: 0.8 }}
                     >
                       All Games
-                    </motion.li>
-                    <motion.li
-                      className='cursor-pointer'
-                      onClick={() => handleSortOrderClick('asc')}
-                      whileHover={{ scale: 1.1 }}
-                      transition={{ duration: 0.8 }}
-                    >
-                      Ascending
-                    </motion.li>
-                    <motion.li
-                      className='cursor-pointer'
-                      onClick={() => handleSortOrderClick('desc')}
-                      whileHover={{ scale: 1.1 }}
-                      transition={{ duration: 0.8 }}
-                    >
-                      Descending
                     </motion.li>
                     <motion.li
                       className='cursor-pointer'
