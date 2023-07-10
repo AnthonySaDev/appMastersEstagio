@@ -6,7 +6,6 @@ import { useContext, useEffect, useState } from 'react';
 import { BsPersonFill } from 'react-icons/bs';
 import { FaHeart, FaHome } from 'react-icons/fa';
 import { IoGameController } from 'react-icons/io5';
-import avatar from '../../../public/jettAvatar.jpg';
 import Logo from '../Logo';
 export default function Header() {
   const { user, signOut } = useContext(AuthContext);
@@ -186,7 +185,18 @@ export default function Header() {
                 <span
                   className="hover:text-orange-600 transition-colors duration-300 w-fit whitespace-nowrap flex items-center gap-2"
                 >
-                  {!user ? <BsPersonFill size={25} /> : <img src={user.avatarUrl !== null || user.avatarUrl !== '' ? user.avatarUrl : avatar} className='w-16 h-16 rounded-full' />}
+                 {
+                  user ? 
+                  <>
+                {avatarUrl === null ? 
+                <BsPersonFill size={30}/>
+                :
+                <img src={avatarUrl} className='w-16 h-16 rounded-full' alt="Foto de perfil do usuario" />
+              }
+                  </>
+              :
+              <BsPersonFill color='' size={30}/>
+            }
 
                   <p className="cursor-pointer font-bold">{!user ? "ACCOUNT" : user.name}</p>
                 </span>
