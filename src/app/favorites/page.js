@@ -126,7 +126,7 @@ export default function Favorites() {
                   Selected: {ratingFilter == -1 ? (sortOrder == 'asc' ? 'Ascending' : sortOrder == 'desc' ? 'Descending' : 'All Games') : ratingFilter}
                 </motion.div>
                 {showOptions && (
-                  <ul className="absolute w-64 p-2 mt-2 bg-[#060623] text-yellow-600 py-5 rounded shadow top-full z-30">
+                  <ul className="absolute w-fit px-4 mt-2 bg-[#060623] text-yellow-600 py-5 rounded shadow top-full z-30">
                     <motion.li
                       className='cursor-pointer'
                       onClick={() => handleOptionClick(-1)}
@@ -154,7 +154,6 @@ export default function Favorites() {
                       transition={{ duration: 0.8 }}
                     >
                       <StarBorder />
-                      <StarBorder style={{ color: '#ccc' }} />
                       <StarBorder style={{ color: '#ccc' }} />
                       <StarBorder style={{ color: '#ccc' }} />
                       <StarBorder style={{ color: '#ccc' }} />
