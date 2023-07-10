@@ -60,7 +60,7 @@ const Cards = ({ data }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 1500);
+    }, 2000);
 
     return () => clearTimeout(timer);
   }, []);
@@ -163,7 +163,7 @@ const Cards = ({ data }) => {
               ))
             ) : (
               <div className="text-white text-center py-20">
-                <p>I promise, I'm trying to find them 😘.</p>
+                <p>I promise, Im trying to find them 😘.</p>
               </div>
             )}
         </div>
