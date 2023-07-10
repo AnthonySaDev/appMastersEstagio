@@ -1,5 +1,5 @@
 'use client'
-import Cards from '@/components/Cards';
+import Cards from '@/app/screen/Cards';
 import { DataContext } from '@/contexts/data';
 import { motion } from 'framer-motion';
 import Image from 'next/image';

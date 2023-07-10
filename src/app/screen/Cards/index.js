@@ -4,12 +4,12 @@ import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { AiFillCloseCircle, AiOutlineArrowUp } from 'react-icons/ai';
 import { IoListCircleOutline } from 'react-icons/io5';
-import CardSkeleton from '../CardSkeleton';
-import { GenreFilter } from '../Filter';
-import Modal from '../Modal';
-import { Partciles } from '../Particles';
-import SearchComponent from '../Search';
-import { GameCard } from '../gameCards';
+import CardSkeleton from '../../../components/CardSkeleton';
+import { GenreFilter } from '../../../components/Filter';
+import Modal from '../../../components/Modal';
+import { Partciles } from '../../../components/Particles';
+import SearchComponent from '../../../components/Search';
+import { GameCard } from '../../../components/gameCards';
 
 const Cards = ({ data }) => {
   const itemsPerPage = 6;
