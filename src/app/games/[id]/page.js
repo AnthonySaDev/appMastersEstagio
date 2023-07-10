@@ -1,9 +1,9 @@
 'use client'
 import HasError from '@/app/hasError';
 import Modal from '@/components/Modal';
+import HalfRating from '@/components/Rating';
 import { AuthContext } from '@/contexts/auth';
 import { DataContext } from '@/contexts/data';
-import HalfRating from '@/utils/Rating';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useContext, useState } from 'react';

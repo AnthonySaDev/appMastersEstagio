@@ -1,5 +1,5 @@
 'use client'
-import AccountRedirect from '@/app/AccountRedirect';
+import AccountRedirect from '@/app/screens/AccountRedirect';
 import { AuthContext } from '@/contexts/auth';
 import { DataContext } from '@/contexts/data';
 import { db, storage } from "@/services/firebaseConnection";

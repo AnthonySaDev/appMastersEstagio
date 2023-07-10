@@ -24,7 +24,7 @@ export default function AccountRedirect() {
             log in
           </Link>{' '}
           or{' '}
-          <Link href="/register" className="underline text-blue-600">
+          <Link href="/auth" className="underline text-blue-600">
             register
           </Link>{' '}
           </p>

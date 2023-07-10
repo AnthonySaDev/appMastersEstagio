@@ -23,18 +23,7 @@ export default function Modal({ closeModal }) {
             }}
             className="flex items-center bg-gradient-to-r from-pink-600 to-purple-800 text-white font-bold py-2 px-4 rounded mt-4"
           >
-            Login
-          </motion.button>
-          <motion.button
-            initial={{ x: -500 }}
-            animate={{ x: 0 }}
-            transition={{ duration: 0.9 }}
-            onClick={() => {
-              router.push('/register');
-            }}
-            className="flex items-center bg-gradient-to-l from-pink-600 to-purple-800 text-white font-bold py-2 px-4 rounded mt-4"
-          >
-            Register
+            Authenticate
           </motion.button>
         </div>
       </div>

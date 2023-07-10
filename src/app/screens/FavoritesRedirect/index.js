@@ -2,7 +2,6 @@
 import React from 'react';
 import Link from 'next/link';
 import { FiFrown } from 'react-icons/fi';
-import Header from '@/components/Header';
 export default function FavoriteRedirect() {
     return (
         <div>
@@ -18,13 +17,10 @@ export default function FavoriteRedirect() {
             <div className="text-lg flex flex-col text-center mb-8">
               To start adding favorites, please{' '}
               <p className="flex w-full justify-around">
-                <Link href="/register" className="underline text-blue-600">
-                  register
-                </Link>{' '}
-                or{' '}
                 <Link href="/auth" className="underline text-blue-600">
-                  login
-                </Link>
+                authenticate
+                </Link>{' '}
+              
               </p>
             </div>
             <p className="text-sm">Enjoy discovering and saving your favorites!</p>

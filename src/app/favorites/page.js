@@ -1,15 +1,17 @@
-'use client';
-import FavoriteRedirect from '@/app/FavoritesRedirect';
+'use client'
+import FavoriteRedirect from '@/app/screens/FavoritesRedirect';
+import HalfRating from '@/components/Rating';
 import { AuthContext } from '@/contexts/auth';
 import { DataContext } from '@/contexts/data';
 import { db } from '@/services/firebaseConnection';
-import HalfRating from '@/utils/Rating';
 import { StarBorder } from '@mui/icons-material';
 import { doc, getDoc } from 'firebase/firestore';
 import Link from 'next/link';
 import { useContext, useEffect, useState } from 'react';
 import HasError from '../hasError';
 import Loading from './loading';
+import { BsSortDown, BsSortUp } from 'react-icons/bs';
+import { motion } from 'framer-motion';
 
 export default function Favorites() {
   const { user } = useContext(AuthContext);
@@ -20,7 +22,7 @@ export default function Favorites() {
   const [loading, setLoading] = useState(true);
   const [visible, setVisible] = useState(false);
   const [ratingFilter, setRatingFilter] = useState(-1);
-  const [sortOrder, setSortOrder] = useState('default'); // State for sorting
+  const [sortOrder, setSortOrder] = useState('default');
   const [showOptions, setShowOptions] = useState(false);
 
   useEffect(() => {
@@ -41,15 +43,13 @@ export default function Favorites() {
 
   const uniqueRatings = Array.from(new Set(favorites.map(game => game.rate))).sort();
 
-  const handleOrderClick = (order) => {
-    setRatingFilter(-1);
-    setSortOrder(order);
-    setShowOptions(false);
-  }
+  const handleSortOrderClick = () => {
+    setSortOrder(prevOrder => (prevOrder === 'asc' ? 'desc' : 'asc'));
+  };
 
   const handleOptionClick = (value) => {
     setRatingFilter(value);
-    setSortOrder('default'); 
+    setSortOrder('default');
     setShowOptions(false);
   }
 
@@ -79,101 +79,225 @@ export default function Favorites() {
 
   return (
     <div className="flex flex-col h-screen bg-gradient-to-r text-white">
-      <div className="w-10/12 mt-20 md:mt-24 flex flex-col items-center justify-center mx-auto ">
-        <div className='flex w-full md:w-5/12 mx-auto justify-between items-center mb-5'>
-          <h1 className="text-red-600 text-xl font-bold">Hello, {user.name}</h1>
-          {user.avatarUrl !== null ? (
-            <div>
-              <img src={user.avatarUrl} width="60" height="60" className='object-cover md:hidden rounded-full' />
-              <img src={user.avatarUrl} width="150" height="150" className='object-cover md:flex hidden rounded-full' />
-            </div>
-          ) : <></>}
-        </div>
-        <p className='text-center text-2xl'>This is your list of favorite games.</p>
-        <p className='text-center text-2xl'>You can edit anything you want 😊</p>
+      <div className="w-10/12 mt-20 md:mt-24 flex flex-col items-center justify-center mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: -50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1 }}
+        >
+          <div className='flex w-full md:w-5/12 mx-auto justify-between items-center mb-5'>
+            <h1 className="text-red-600 text-xl font-bold">Hello, {user.name}</h1>
+            {user.avatarUrl !== null ? (
+              <div>
+                <motion.img
+                  src={user.avatarUrl}
+                  width="60"
+                  height="60"
+                  className='object-cover md:hidden rounded-full'
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ duration: 1 }}
+                />
+                <motion.img
+                  src={user.avatarUrl}
+                  width="150"
+                  height="150"
+                  className='object-cover md:flex hidden rounded-full'
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ duration: 1 }}
+                />
+              </div>
+            ) : <></>}
+          </div>
+          <p className='text-center text-2xl'>This is your list of favorite games.</p>
+          <p className='text-center text-2xl'>You can edit anything you want 😊</p>
+        </motion.div>
 
         <div className='w-full py-10 flex items-center justify-center text-yellow-600 outline-none font-semibold '>
           {uniqueRatings.length > 0 && (
             <div className='text-red-600 mr-3 outline-none'>Rating Filter:
               <div className='relative ml-3 bg-transparent border-b-2 border-red-600 focus:border-red-600 outline-none' onClick={() => setShowOptions(!showOptions)}>
-                <div className="cursor-pointer">
+                <motion.div
+                  className="cursor-pointer"
+                  whileHover={{ scale: 1.1 }}
+                  transition={{ duration: 0.8 }}
+                >
                   Selected: {ratingFilter == -1 ? (sortOrder == 'asc' ? 'Ascending' : sortOrder == 'desc' ? 'Descending' : 'All Games') : ratingFilter}
-                </div>
+                </motion.div>
                 {showOptions && (
                   <ul className="absolute w-64 p-2 mt-2 bg-[#060623] text-yellow-600 py-5 rounded shadow top-full z-30">
-                    <li className='cursor-pointer' onClick={() => handleOptionClick(-1)}>
+                    <motion.li
+                      className='cursor-pointer'
+                      onClick={() => handleOptionClick(-1)}
+                      whileHover={{ scale: 1.1 }}
+                      transition={{ duration: 0.8 }}
+                    >
                       All Games
-                    </li>
-                    <li className='cursor-pointer' onClick={() => handleOrderClick('asc')}>
+                    </motion.li>
+                    <motion.li
+                      className='cursor-pointer'
+                      onClick={() => handleSortOrderClick('asc')}
+                      whileHover={{ scale: 1.1 }}
+                      transition={{ duration: 0.8 }}
+                    >
                       Ascending
-                    </li>
-                    <li className='cursor-pointer' onClick={() => handleOrderClick('desc')}>
+                    </motion.li>
+                    <motion.li
+                      className='cursor-pointer'
+                      onClick={() => handleSortOrderClick('desc')}
+                      whileHover={{ scale: 1.1 }}
+                      transition={{ duration: 0.8 }}
+                    >
                       Descending
-                    </li>
-                    <li className='cursor-pointer' onClick={() => handleOptionClick(0)}>
+                    </motion.li>
+                    <motion.li
+                      className='cursor-pointer'
+                      onClick={() => handleOptionClick(0)}
+                      whileHover={{ scale: 1.1 }}
+                      transition={{ duration: 0.8 }}
+                    >
                       <StarBorder style={{ color: '#ccc' }} />
                       <StarBorder style={{ color: '#ccc' }} />
                       <StarBorder style={{ color: '#ccc' }} />
                       <StarBorder style={{ color: '#ccc' }} />
                       <StarBorder style={{ color: '#ccc' }} />
-                    </li>
-                    <li className='cursor-pointer' onClick={() => handleOptionClick(1)}>
+                    </motion.li>
+                    <motion.li
+                      className='cursor-pointer'
+                      onClick={() => handleOptionClick(1)}
+                      whileHover={{ scale: 1.1 }}
+                      transition={{ duration: 0.8 }}
+                    >
                       <StarBorder />
                       <StarBorder style={{ color: '#ccc' }} />
                       <StarBorder style={{ color: '#ccc' }} />
                       <StarBorder style={{ color: '#ccc' }} />
                       <StarBorder style={{ color: '#ccc' }} />
-                    </li>
-                    <li className='cursor-pointer' onClick={() => handleOptionClick(2)}>
+                      <StarBorder style={{ color: '#ccc' }} />
+                    </motion.li>
+                    <motion.li
+                      className='cursor-pointer'
+                      onClick={() => handleOptionClick(2)}
+                      whileHover={{ scale: 1.1 }}
+                      transition={{ duration: 0.8 }}
+                    >
                       <StarBorder />
                       <StarBorder />
                       <StarBorder style={{ color: '#ccc' }} />
                       <StarBorder style={{ color: '#ccc' }} />
                       <StarBorder style={{ color: '#ccc' }} />
-                    </li>
-                    <li className='cursor-pointer' onClick={() => handleOptionClick(3)}>
+                    </motion.li>
+                    <motion.li
+                      className='cursor-pointer'
+                      onClick={() => handleOptionClick(3)}
+                      whileHover={{ scale: 1.1 }}
+                      transition={{ duration: 0.8 }}
+                    >
                       <StarBorder />
                       <StarBorder />
                       <StarBorder />
                       <StarBorder style={{ color: '#ccc' }} />
                       <StarBorder style={{ color: '#ccc' }} />
-                    </li>
-                    <li className='cursor-pointer' onClick={() => handleOptionClick(4)}>
+                    </motion.li>
+                    <motion.li
+                      className='cursor-pointer'
+                      onClick={() => handleOptionClick(4)}
+                      whileHover={{ scale: 1.1 }}
+                      transition={{ duration: 0.8 }}
+                    >
                       <StarBorder />
                       <StarBorder />
                       <StarBorder />
                       <StarBorder />
                       <StarBorder style={{ color: '#ccc' }} />
-                    </li>
-                    <li className='cursor-pointer' onClick={() => handleOptionClick(5)}>
+                    </motion.li>
+                    <motion.li
+                      className='cursor-pointer'
+                      onClick={() => handleOptionClick(5)}
+                      whileHover={{ scale: 1.1 }}
+                      transition={{ duration: 0.8 }}
+                    >
                       <StarBorder />
                       <StarBorder />
                       <StarBorder />
                       <StarBorder />
                       <StarBorder />
-                    </li>
+                    </motion.li>
                   </ul>
                 )}
               </div>
             </div>
           )}
+          <div className="flex items-center">
+            <motion.button
+              className="bg-transparent text-red-700 mx-2"
+              onClick={handleSortOrderClick}
+              whileHover={{ scale: 1.1 }}
+              transition={{ duration: 0.8 }}
+            >
+              {sortOrder === 'asc' ? <BsSortUp size={35} /> : <BsSortDown size={35} />}
+            </motion.button>
+          </div>
         </div>
 
         {filteredFavorites.length === 0 ? (
           <p>{funnyMessage}</p>
         ) : (
           filteredFavorites.map((game) => (
-            <div key={game.id} className='flex md:flex-row filter flex-col text-center items-center gap-2 md:w-7/12 mx-auto h-fit pr-2 my-5'>
-              <img src={game.thumbnail} />
+            <motion.div
+              key={game.id}
+              className='flex md:flex-row filter flex-col text-center items-center gap-2 md:w-7/12 mx-auto h-fit pr-2 my-5'
+              initial={{ opacity: 0, y: -50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1 }}
+            >
+              <motion.img
+                src={game.thumbnail}
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ duration: 1 }}
+              />
               <div className='py-2 text-center flex items-center justify-center w-fit mx-auto flex-col gap-2'>
-                <h1 className='text-red-600 text-lg'>{game.title}</h1>
-                <p>{game.short_description}</p>
-                <HalfRating isGameFavorited={isGameFavorited} setIsGameFavorited={setIsGameFavorited} value={game.rate} setValue={setValue} gameId={game.id} filteredData={favorites} user={user} setVisible={setVisible} readOnly={true} />
-                <Link href={game.game_url} target="_blank" rel="noopener noreferrer" className='text-blue-600 cursor-pointer'>
+                <motion.h1
+                  className='text-red-600 text-lg'
+                  initial={{ opacity: 0, y: -50 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 1 }}
+                >
+                  {game.title}
+                </motion.h1>
+                <motion.p
+                  initial={{ opacity: 0, y: -50 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 1 }}
+                >
+                  {game.short_description}
+                </motion.p>
+                <HalfRating
+                  isGameFavorited={isGameFavorited}
+                  setIsGameFavorited={setIsGameFavorited}
+                  value={game.rate}
+                  setValue={setValue}
+                  gameId={game.id}
+                  filteredData={favorites}
+                  user={user}
+                  setVisible={setVisible}
+                  readOnly={true}
+                />
+                <Link
+                  href={game.game_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className='text-blue-600 cursor-pointer'
+                  initial={{ opacity: 0, y: -50 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 1 }}
+                >
                   Official page
                 </Link>
               </div>
-            </div>
+            </motion.div>
           ))
         )}
       </div>

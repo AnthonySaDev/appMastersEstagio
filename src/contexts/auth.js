@@ -80,7 +80,7 @@ function AuthProvider({ children }) {
       storageUser(data);
       setLoadingAuth(false);
       toast.success('Welcome to platform!');
-      router.push('/auth')
+      router.push('/')
     } catch (error) {
    
       toast.error('Oops! Something went wrong!');

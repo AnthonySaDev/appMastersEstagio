@@ -12,6 +12,7 @@ export default function Header() {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState();
+  
   useEffect(()=>{
     if(user){
       setAvatarUrl(user.avatarUrl);
@@ -38,12 +39,6 @@ export default function Header() {
           transition={{ duration: 2 }}
           className=" hidden w-8/12 xl:flex items-center font-extrabold justify-between gap-20 text-sm">
           <div className='flex gap-20 items-center justify-center'>
-            <Link href='/#home' className="hover:text-green-600 transition-colors duration-300 w-fit whitespace-nowrap flex items-center gap-2 " >
-              <FaHome size={25} />
-              <p className=" cursor-pointer  ">
-                HOME
-              </p>
-            </Link>
             <Link href='/#games' className="hover:text-pink-600 transition-colors duration-300 w-fit whitespace-nowrap flex items-center gap-2">
               <IoGameController size={25} />
               <p className=" cursor-pointer  ">
@@ -93,14 +88,9 @@ export default function Header() {
                         href='/auth'
                         className="flex items-center justify-center text-center bg-gradient-to-r from-pink-600 to-purple-800 text-white font-bold py-2 rounded mt-4 w-24 text-sm"
                       >
-                        Login
+                        Authenticate
                       </Link>
-                      <Link
-                        href='/register'
-                        className="flex items-center justify-center text-center bg-gradient-to-l from-pink-600 to-purple-800 text-white font-bold py-2 rounded mt-4 w-24 text-sm"
-                      >
-                        Register
-                      </Link>
+                     
                     </div>
                   }
 
@@ -155,15 +145,6 @@ export default function Header() {
         {isNavOpen && (
           <div className="showMenuNav w-full flex items-center justify-center bg-black/90">
             <div className="flex flex-col gap-5 text-center font-extrabold items-start w-1/4 mx-auto justify-around min-h-[100px]">
-              <Link href='/#home'>
-                <span
-                  className="hover:text-green-600 transition-colors duration-300 w-fit whitespace-nowrap flex items-center gap-2"
-                  onClick={() => setIsNavOpen(false)}
-                >
-                  <FaHome size={25} />
-                  <p className="cursor-pointer">HOME</p>
-                </span>
-              </Link>
               <Link href='/#games'>
                 <span
                   className="hover:text-pink-600 transition-colors duration-300 w-fit whitespace-nowrap flex items-center gap-2"
@@ -217,14 +198,9 @@ export default function Header() {
                           href='/auth'
                           className="flex items-center justify-center text-center bg-gradient-to-r from-pink-600 to-purple-800 text-white font-bold py-2 px-4 rounded mt-4"
                         >
-                          Login
+                          Authenticate
                         </Link>
-                        <Link
-                          href='/register'
-                          className="flex items-center justify-center text-center bg-gradient-to-l from-pink-600 to-purple-800 text-white font-bold py-2 px-4 rounded mt-4"
-                        >
-                          Register
-                        </Link>
+                      
                       </div>
                     }
 
