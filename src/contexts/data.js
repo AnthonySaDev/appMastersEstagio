@@ -1,30 +1,26 @@
 'use client'
 import React, { createContext, useEffect, useState } from 'react';
 import { api } from '@/data/setupApi';
-
-
 export const DataContext = createContext();
-
 function DataProvider({ children }){
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
   const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     const fetchData = async () => {
       try {
-        setLoading(true);
         const response = await api.get('/');
         const newData = response.data;
         setData(newData);
-        setLoading(false);
       } catch (error) {
         setHasError(true);
-        setLoading(true);
       }
     };
 
     fetchData();
+    setLoading(true);
   }, []);
 
   return (
