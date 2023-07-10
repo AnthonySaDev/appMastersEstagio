@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { useContext } from 'react';
 import { FaArrowCircleDown } from 'react-icons/fa';
-import background from '../../public/background.jpg';
+import background from '../../public/background.png';
 import HasError from './hasError';
 import Loading from './loading';
 
@@ -37,7 +37,7 @@ export default function Home() {
           
             <div className='absolute top-0  h-full md:w-7/12 mx-auto'>
               <span className="flex flex-col gap-4 md:items-start items-end  justify-center h-full font-extrabold md:w-5/12 w-9/12 mx-auto">
-                <p className="md:text-[2rem] text-2xl brightness-200">
+                <p className="md:text-[2.5rem] text-2xl brightness-200">
                   Unleash your gaming potential. Level up your{" "}
                   <motion.span 
                     initial={{ opacity: 0 }} 
@@ -50,7 +50,7 @@ export default function Home() {
                 </p>
                 <a href='#games'>
                   <button 
-                    className='flex whitespace-nowrap items-center justify-center gap-4 text-left w-fit mt-10 pl-6 pr-2 py-2 bg-gradient-to-l from-pink-600 to-purple-800 text-white rounded-lg shadow hover:bg-purple-400 hover:brightness-125 transition-all duration-700'
+                    className='flex whitespace-nowrap items-center justify-center gap-4 text-left w-fit mt-10 pl-6 pr-2 py-3 bg-gradient-to-l from-pink-600 to-purple-800 text-white rounded-lg shadow hover:bg-purple-400 hover:brightness-125 transition-all duration-700'
                   >
                     <h1
                     >
