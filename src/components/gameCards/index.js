@@ -101,7 +101,7 @@ export const GameCard = ({ item, filteredData, setVisible }) => {
               }}
               transition={{ opacity: { duration: 0.4 }, y: { duration: 0.7 } }}
             >
-              <div className="bg-black bg-opacity-[.98] mx-auto flex flex-col items-center px-5 gap-4 py-[3.2rem] justify-center rounded-b">
+              <div className="bg-black bg-opacity-[.98] mx-auto flex flex-col items-center px-5 gap-4 py-[3.6rem] justify-center rounded-b">
                 <div className="flex items-center justify-around">
                   <HalfRating
                     isGameFavorited={isGameFavorited}
