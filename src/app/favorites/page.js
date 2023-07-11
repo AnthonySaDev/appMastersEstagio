@@ -42,6 +42,10 @@ export default function Favorites() {
           const ratings = Array.from(new Set(favoritesFromContext.map(game => game.rate))).sort();
           setUniqueRatings(ratings);
         }
+        else{
+          setUserLoading(false);
+          return <FavoriteRedirect/>
+        }
       });
       
       return unsubscribe;
