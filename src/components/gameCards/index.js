@@ -57,12 +57,12 @@ export const GameCard = ({ item, filteredData, setVisible }) => {
           className="w-full h-full object-fill brightness-150 shadow-2xl"
         />
         <div className="absolute bg-transparent top-0 left-0 w-full h-full">
-          <div className="p-5 flex flex-col justify-between h-full">
-            <div className="w-full h-[50%] lg:h-auto mb-1">
+          <div className="p-4 flex flex-col justify-between h-full">
+            <div className="w-full h-[30%] sm:h-[40%] md:h-[35%] lg:h-[45%] xl:h[50%] 2xl:h-[60%]">
               <motion.img
                 src={item.thumbnail}
                 alt={item.title}
-                className="w-full lg:h-[220px] h-[210px] object-cover"
+                className="w-full h-full object-cover"
                 variants={imageVariants}
                 initial="hidden"
                 animate="visible"
@@ -101,8 +101,8 @@ export const GameCard = ({ item, filteredData, setVisible }) => {
               }}
               transition={{ opacity: { duration: 0.4 }, y: { duration: 0.7 } }}
             >
-              <div className="bg-black/95 mx-auto flex flex-col items-center px-5 gap-4 py-[4rem] justify-center rounded-b">
-                <div className="flex items-center justify-center gap-4">
+              <div className="bg-black bg-opacity-[.98] mx-auto flex flex-col items-center px-5 gap-4 py-[3.2rem] justify-center rounded-b">
+                <div className="flex items-center justify-around">
                   <HalfRating
                     isGameFavorited={isGameFavorited}
                     setIsGameFavorited={setIsGameFavorited}
