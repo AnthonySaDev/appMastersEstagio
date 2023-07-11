@@ -113,6 +113,7 @@ export const GameCard = ({ item, filteredData, setVisible }) => {
                     user={user}
                     setVisible={setVisible}
                     readOnly={false}
+                    disabled={false}
                   />
                 </div>
                 <span className="font-semibold p-4 border border-zinc-600 rounded-lg text-inherit">

@@ -22,10 +22,10 @@ export default function HalfRating({
   value,
   setValue,
   gameId,
-  filteredData,
   user,
   setVisible,
   readOnly,
+  disabled
 }) {
   const [hover, setHover] = useState(-1);
   const [fill, setFill] = useState(false);
@@ -45,7 +45,7 @@ export default function HalfRating({
         setTextButton("Save Changes");
       }
     } else {
-      await addFavorite(gameId, filteredData, user, setVisible, setIsGameFavorited, value);
+      await addFavorite(gameId, user, setVisible, setIsGameFavorited, value);
       setTextButton("Remove Favorite");
     }
   };
@@ -103,6 +103,7 @@ export default function HalfRating({
         variants={buttonVariants}
         animate={fill ? "filled" : "unfilled"}
         transition={{ duration: 1.5 }}
+        disabled={disabled}
       >
         {fill ? (
           <FaHeart size={34} color="red" />

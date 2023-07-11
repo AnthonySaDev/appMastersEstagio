@@ -1,48 +1,50 @@
 'use client'
 import FavoriteRedirect from '@/app/screens/FavoritesRedirect';
+import FilterRating from '@/components/FilterRating';
 import HalfRating from '@/components/Rating';
 import { AuthContext } from '@/contexts/auth';
 import { DataContext } from '@/contexts/data';
 import { db } from '@/services/firebaseConnection';
-import { StarBorder } from '@mui/icons-material';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, onSnapshot } from 'firebase/firestore';
 import { motion } from 'framer-motion';
-import Link from 'next/link';
 import { useContext, useEffect, useState } from 'react';
 import { BsSortDown, BsSortUp } from 'react-icons/bs';
 import HasError from '../hasError';
 import Loading from './loading';
+import { IoIosRefresh } from 'react-icons/io';
 
 export default function Favorites() {
   const { user } = useContext(AuthContext);
-  const { hasError } = useContext(DataContext);
+  const { data, hasError, loading } = useContext(DataContext);
   const [favorites, setFavorites] = useState([]);
   const [value, setValue] = useState(0);
   const [isGameFavorited, setIsGameFavorited] = useState(true);
-  const [loading, setLoading] = useState(true);
   const [visible, setVisible] = useState(false);
   const [ratingFilter, setRatingFilter] = useState(-1);
-  const [sortOrder, setSortOrder] = useState('default');
+  const [sortOrder, setSortOrder] = useState('asc');
   const [showOptions, setShowOptions] = useState(false);
+  const [uniqueRatings, setUniqueRatings] = useState([]);
+  const [imageLoaded, setImageLoaded] = useState({});
 
   useEffect(() => {
-    const fetchData = async () => {
-      if (user) {
-        const docRef = doc(db, 'favorites', user.uid);
-        const docSnap = await getDoc(docRef);
-
+    if (user) {
+      const docRef = doc(db, 'favorites', user.uid);
+      const unsubscribe = onSnapshot(docRef, (docSnap) => {
         if (docSnap.exists()) {
-          setFavorites(docSnap.data().favorites);
+          const favoritesData = docSnap.data().favorites;
+          const favoritesFromContext = favoritesData.map(fav => ({
+            ...data.find(game => game.id === fav.id),
+            rate: fav.rate,
+          }));
+          setFavorites(favoritesFromContext);
+          const ratings = Array.from(new Set(favoritesFromContext.map(game => game.rate))).sort();
+          setUniqueRatings(ratings);
         }
-      }
-      setLoading(false);
-    };
-
-    fetchData();
-  }, [user, favorites, isGameFavorited]);
-
-  const uniqueRatings = Array.from(new Set(favorites.map(game => game.rate))).sort();
-
+      });
+      return unsubscribe;
+    }
+  }, [user, data, isGameFavorited, favorites]);
+  
   const handleSortOrderClick = () => {
     setRatingFilter(-1)
     setSortOrder(prevOrder => (prevOrder === 'asc' ? 'desc' : 'asc'));
@@ -54,32 +56,34 @@ export default function Favorites() {
     setShowOptions(false);
   }
 
-  let filteredFavorites = favorites
-    .filter(game => ratingFilter === -1 || game.rate === ratingFilter);
+  let ratedFavorites = favorites.filter(game => game.rate > 0 && (ratingFilter === -1 || game.rate === ratingFilter));
+  let zeroRatedFavorites = favorites.filter(game => game.rate === 0 && (ratingFilter === -1 || game.rate === ratingFilter));
+
   if (ratingFilter === -1) {
     if (sortOrder === 'asc') {
-      filteredFavorites.sort((a, b) => a.rate - b.rate);
+      ratedFavorites.sort((a, b) => a.rate - b.rate);
     } else if (sortOrder === 'desc') {
-      filteredFavorites.sort((a, b) => b.rate - a.rate);
+      ratedFavorites.sort((a, b) => b.rate - a.rate);
     }
   }
+
+  let filteredFavorites = [...ratedFavorites, ...zeroRatedFavorites];
 
   const funnyMessage = "Oops! Looks like your games are shy. None of them match this rating filter. Try a different one! 😄";
 
   if (loading) {
+    if (!user) {
+      return <FavoriteRedirect />;
+    }
     return <Loading />;
   }
 
-  if (!user) {
-    return <FavoriteRedirect />;
-  }
-
+  
   if (hasError) {
     return <HasError />;
   }
-
   return (
-    <div className="flex flex-col h-screen bg-gradient-to-r text-white">
+    <div className="flex flex-col pb-10 h-fit bg-gradient-to-r text-white">
       <div className="w-10/12 mt-20 md:mt-24 flex flex-col items-center justify-center mx-auto">
         <motion.div
           initial={{ opacity: 0, y: -50 }}
@@ -94,7 +98,7 @@ export default function Favorites() {
                   src={user.avatarUrl}
                   width="60"
                   height="60"
-                  className='object-cover md:hidden rounded-full'
+                  className='object-cover md:hidden rounded-full mx-10'
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ duration: 1 }}
@@ -103,7 +107,7 @@ export default function Favorites() {
                   src={user.avatarUrl}
                   width="150"
                   height="150"
-                  className='object-cover md:flex hidden rounded-full'
+                  className='object-cover md:flex hidden rounded-full mx-10'
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ duration: 1 }}
@@ -127,88 +131,7 @@ export default function Favorites() {
                   Selected: {ratingFilter == -1 ? (sortOrder == 'asc' ? 'Ascending' : sortOrder == 'desc' ? 'Descending' : 'All Games') : ratingFilter}
                 </motion.div>
                 {showOptions && (
-                  <ul className="absolute w-48 px-2 mt-2 bg-[#060623] text-yellow-600 py-5 rounded shadow top-full z-30">
-                    <motion.li
-                      className='cursor-pointer'
-                      onClick={() => handleOptionClick(-1)}
-                      whileHover={{ scale: 1.1 }}
-                      transition={{ duration: 0.8 }}
-                    >
-                      All Games
-                    </motion.li>
-                    <motion.li
-                      className='cursor-pointer'
-                      onClick={() => handleOptionClick(0)}
-                      whileHover={{ scale: 1.1 }}
-                      transition={{ duration: 0.8 }}
-                    >
-                      <StarBorder style={{ color: '#ccc' }} />
-                      <StarBorder style={{ color: '#ccc' }} />
-                      <StarBorder style={{ color: '#ccc' }} />
-                      <StarBorder style={{ color: '#ccc' }} />
-                      <StarBorder style={{ color: '#ccc' }} />
-                    </motion.li>
-                    <motion.li
-                      className='cursor-pointer'
-                      onClick={() => handleOptionClick(1)}
-                      whileHover={{ scale: 1.1 }}
-                      transition={{ duration: 0.8 }}
-                    >
-                      <StarBorder />
-                      <StarBorder style={{ color: '#ccc' }} />
-                      <StarBorder style={{ color: '#ccc' }} />
-                      <StarBorder style={{ color: '#ccc' }} />
-                      <StarBorder style={{ color: '#ccc' }} />
-                    </motion.li>
-                    <motion.li
-                      className='cursor-pointer'
-                      onClick={() => handleOptionClick(2)}
-                      whileHover={{ scale: 1.1 }}
-                      transition={{ duration: 0.8 }}
-                    >
-                      <StarBorder />
-                      <StarBorder />
-                      <StarBorder style={{ color: '#ccc' }} />
-                      <StarBorder style={{ color: '#ccc' }} />
-                      <StarBorder style={{ color: '#ccc' }} />
-                    </motion.li>
-                    <motion.li
-                      className='cursor-pointer'
-                      onClick={() => handleOptionClick(3)}
-                      whileHover={{ scale: 1.1 }}
-                      transition={{ duration: 0.8 }}
-                    >
-                      <StarBorder />
-                      <StarBorder />
-                      <StarBorder />
-                      <StarBorder style={{ color: '#ccc' }} />
-                      <StarBorder style={{ color: '#ccc' }} />
-                    </motion.li>
-                    <motion.li
-                      className='cursor-pointer'
-                      onClick={() => handleOptionClick(4)}
-                      whileHover={{ scale: 1.1 }}
-                      transition={{ duration: 0.8 }}
-                    >
-                      <StarBorder />
-                      <StarBorder />
-                      <StarBorder />
-                      <StarBorder />
-                      <StarBorder style={{ color: '#ccc' }} />
-                    </motion.li>
-                    <motion.li
-                      className='cursor-pointer'
-                      onClick={() => handleOptionClick(5)}
-                      whileHover={{ scale: 1.1 }}
-                      transition={{ duration: 0.8 }}
-                    >
-                      <StarBorder />
-                      <StarBorder />
-                      <StarBorder />
-                      <StarBorder />
-                      <StarBorder />
-                    </motion.li>
-                  </ul>
+                 <FilterRating handleOptionClick={handleOptionClick}/>
                 )}
               </div>
             </div>
@@ -228,19 +151,27 @@ export default function Favorites() {
         {filteredFavorites.length === 0 ? (
           <p>{funnyMessage}</p>
         ) : (
+        
           filteredFavorites.map((game) => (
             <motion.div
               key={game.id}
-              className='flex md:flex-row filter flex-col text-center items-center gap-2 md:w-7/12 mx-auto h-fit pr-2 my-5'
+              className='flex lg:flex-row filter flex-col text-center items-center gap-2 md:w-7/12 mx-auto h-fit pr-2 my-5'
               initial={{ opacity: 0, y: -50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1 }}
             >
+              {!imageLoaded[game.id] && (
+                <div className='w-1/2 flex items-center justify-center text-center'>
+                  <IoIosRefresh className="animate-spin text-red-600 text-4xl" />
+                </div>
+              )}
               <motion.img
                 src={game.thumbnail}
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ duration: 1 }}
+                onLoad={() => setImageLoaded(prevState => ({...prevState, [game.id]: true}))}
+                className='h-full w-full xl:w-[300px] object-cover'
               />
               <div className='py-2 text-center flex items-center justify-center w-fit mx-auto flex-col gap-2'>
                 <motion.h1
@@ -268,18 +199,9 @@ export default function Favorites() {
                   user={user}
                   setVisible={setVisible}
                   readOnly={true}
+                  disabled={true}
                 />
-                <Link
-                  href={game.game_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className='text-blue-600 cursor-pointer'
-                  initial={{ opacity: 0, y: -50 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 1 }}
-                >
-                  Official page
-                </Link>
+           
               </div>
             </motion.div>
           ))

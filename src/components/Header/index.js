@@ -34,8 +34,8 @@ export default function Header() {
         </motion.div>
 
         <motion.nav
-          initial={{ x: 800 }}
-          animate={{ x: 0 }}
+          initial={{ opacity:0, x: 800 }}
+          animate={{opacity:1, x: 0 }}
           transition={{ duration: 2 }}
           className=" hidden w-8/12 xl:flex items-center font-extrabold justify-between gap-20 text-sm">
           <div className='flex gap-20 items-center justify-center'>

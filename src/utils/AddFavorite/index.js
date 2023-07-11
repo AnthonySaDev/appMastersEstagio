@@ -3,7 +3,7 @@ import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
-export async function addFavorite(gameId, filteredData, user, setVisible, setIsGameFavorited, value) {
+export async function addFavorite(gameId, user, setVisible, setIsGameFavorited, value) {
 
   if (!user) {
     toast.warn("You need to be authenticated to favorite a game, access your account.");
@@ -30,7 +30,7 @@ export async function addFavorite(gameId, filteredData, user, setVisible, setIsG
             onClick={() => {
               toast.dismiss(confirmToast);
               value = 0;
-              addGameToFavorites(gameId, filteredData, user, setIsGameFavorited, value);
+              addGameToFavorites(gameId, user, setIsGameFavorited, value);
               setIsGameFavorited(true);
               toast.success('Game was added to favorites.');
             }}>
@@ -44,14 +44,13 @@ export async function addFavorite(gameId, filteredData, user, setVisible, setIsG
       }
     );
   } else {
-    addGameToFavorites(gameId, filteredData, user, setIsGameFavorited, value);
+    addGameToFavorites(gameId, user, setIsGameFavorited, value);
     setIsGameFavorited(true);
   }
 }
 
-async function addGameToFavorites(gameId, filteredData, user, setIsGameFavorited, value) {
-  const gameToAdd = filteredData.find((game) => game.id === gameId);
-  gameToAdd.rate = value;
+async function addGameToFavorites(gameId, user, setIsGameFavorited, value) {
+  const gameToAdd = { id: gameId, rate: value };
   try {
     const docRef = doc(db, 'favorites', user.uid);
     const docSnap = await getDoc(docRef);

@@ -17,7 +17,6 @@ export default function Games({ params }) {
   const router = useRouter();
 
   const filteredData = data.filter((item) => item.id === Number(params.id));
-  const favoriteId = Number(params.id);
 
   const handleGoBack = () => {
     router.push('/#games');
@@ -77,7 +76,7 @@ export default function Games({ params }) {
                 </Link>
               </div>
               <div className='w-fit mx-auto'>
-              <HalfRating isGameFavorited={isGameFavorited} setIsGameFavorited={setIsGameFavorited} value={value} setValue={setValue} gameId={item.id} filteredData={filteredData} user={user} setVisible={setVisible} readOnly={false}/>
+              <HalfRating isGameFavorited={isGameFavorited} setIsGameFavorited={setIsGameFavorited} value={value} setValue={setValue} gameId={item.id} filteredData={filteredData} user={user} setVisible={setVisible} readOnly={false} disabled={false}/>
               </div>
             </div>
             <div className="flex w-full justify-center items-center gap-4">

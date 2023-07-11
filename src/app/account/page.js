@@ -1,17 +1,17 @@
 'use client'
-import AccountRedirect from '@/app/screens/AccountRedirect';
 import { AuthContext } from '@/contexts/auth';
 import { DataContext } from '@/contexts/data';
 import { db, storage } from "@/services/firebaseConnection";
 import { doc, setDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useContext, useEffect, useState } from 'react';
 import { FiSettings, FiUpload } from 'react-icons/fi';
 import { toast } from 'react-toastify';
 import avatar from '../../../public/avatar.png';
 import HasError from '../hasError';
-import Loading from './loading';
+
 export default function Account() {
 
   const { user, setUser, storageUser } = useContext(AuthContext)
@@ -21,11 +21,14 @@ export default function Account() {
   const [imageAvatar, setImageAvatar] = useState(null);
   const [loading, setLoading] = useState(true);
   const [text, setText] = useState('Save');
+  const router = useRouter();
   useEffect(() => {
     if (user) {
-
       setAvatarUrl(user.avatarUrl);
       setLoading(false);
+    }
+    else {
+      router.push('/auth')
     }
   }, [user]);
 
@@ -34,20 +37,20 @@ export default function Account() {
     setText("Loading...");
     const usersRef = doc(db, "users", user.uid);
     let updatedData = {};
-  
+
     if (name !== user.name) {
       updatedData.name = name;
     } else {
-      updatedData.name = user.name; 
+      updatedData.name = user.name;
     }
-  
+
     if (avatar !== user.avatarUrl) {
       const imageUrl = await handleUpload();
       updatedData.avatarUrl = imageUrl;
     } else {
-      updatedData.avatarUrl = user.avatarUrl; 
+      updatedData.avatarUrl = user.avatarUrl;
     }
-  
+
     try {
       await setDoc(usersRef, updatedData);
       const data = { ...user, ...updatedData };
@@ -58,7 +61,7 @@ export default function Account() {
     } catch (error) {
     }
   }
-  
+
 
   function handleFile(e) {
 
@@ -104,7 +107,6 @@ export default function Account() {
 
     return null;
   }
- 
 
   if (hasError) {
     return (
@@ -112,9 +114,6 @@ export default function Account() {
     )
   }
 
-  if (!user) {
-    return <AccountRedirect />;
-  }
   return (
     <div className="flex flex-col h-screen items-center justify-center mt-10 bg-gradient-to-r text-white">
       <div className="md:w-6/12 mx-auto mt-10 px-4 py-8 bg-gray-800 rounded-lg shadow-lg">
