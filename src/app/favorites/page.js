@@ -75,15 +75,12 @@ export default function Favorites() {
     return <Loading />;
   }
 
-  if (!user) {
-    return <FavoriteRedirect />;
-  }
-
   if (hasError) {
     return <HasError />;
   }
   return (
-    <div className="flex flex-col pb-10 h-fit bg-gradient-to-r text-white">
+    <>
+    {!user ? <FavoriteRedirect /> : <div className="flex flex-col pb-10 h-fit bg-gradient-to-r text-white">
       <div className="w-10/12 mt-20 md:mt-24 flex flex-col items-center justify-center mx-auto">
         <motion.div
           initial={{ opacity: 0, y: -50 }}
@@ -207,6 +204,8 @@ export default function Favorites() {
           ))
         )}
       </div>
-    </div>
+    </div> }
+    </>
+    
   );
 }
