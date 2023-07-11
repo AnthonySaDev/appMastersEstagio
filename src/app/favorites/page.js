@@ -9,9 +9,9 @@ import { doc, onSnapshot } from 'firebase/firestore';
 import { motion } from 'framer-motion';
 import { useContext, useEffect, useState } from 'react';
 import { BsSortDown, BsSortUp } from 'react-icons/bs';
+import { IoIosRefresh } from 'react-icons/io';
 import HasError from '../hasError';
 import Loading from './loading';
-import { IoIosRefresh } from 'react-icons/io';
 
 export default function Favorites() {
   const { user } = useContext(AuthContext);
@@ -72,13 +72,13 @@ export default function Favorites() {
   const funnyMessage = "Oops! Looks like your games are shy. None of them match this rating filter. Try a different one! 😄";
 
   if (loading) {
-    if (!user) {
-      return <FavoriteRedirect />;
-    }
     return <Loading />;
   }
 
-  
+  if (!user) {
+    return <FavoriteRedirect />;
+  }
+
   if (hasError) {
     return <HasError />;
   }
