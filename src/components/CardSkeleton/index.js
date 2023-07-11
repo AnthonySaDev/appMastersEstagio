@@ -43,12 +43,12 @@ export default function CardSkeleton() {
                   transition={{ duration: 0.5 }}
                 ></motion.h1>
                 <div className="w-full flex flex-col gap-3 text-gray-400">
-                  <div className="text-white bg-zinc-700 w-[250px] h-[20px]" />
-                  <div className="text-white bg-zinc-700 w-[250px] h-[20px]" />
-                  <div className="text-white bg-zinc-700 w-[250px] h-[20px]" />
+                  <div className="text-white bg-zinc-700 w-[180px] xl:w-[250px] h-[20px] mb-20" />
+                  <div className="text-white bg-zinc-700 w-[180px] xl:w-[250px] h-[20px]" />
+                  <div className="text-white bg-zinc-700 w-[180px] xl:w-[250px] h-[20px]" />
                   <motion.a
                     href="#"
-                    className="absolute bottom-2 w-[250px] h-[20px] flex font-bold gap-4 items-center justify-center mx-auto py-3 px-6 bg-gradient-to-r from-pink-600 to-purple-800 text-white rounded-lg shadow hover:bg-purple-400 hover:brightness-125 transition-all duration-700 bg-gray-400"
+                    className="absolute bottom-2 w-[90%] h-[20px] flex font-bold gap-4 items-center justify-center mx-auto py-3 px-6 bg-gradient-to-r from-pink-600 to-purple-800 text-white rounded-lg shadow hover:bg-purple-400 hover:brightness-125 transition-all duration-700 bg-gray-400"
                     variants={skeletonVariants}
                     initial="hidden"
                     animate="visible"

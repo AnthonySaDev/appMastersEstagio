@@ -177,7 +177,7 @@ const Cards = ({ data }) => {
         {filteredData.length > endIndex && (
           <motion.button
             onClick={handleLoadMore}
-            className="px-4 py-2bg-blue-500 text-white rounded-lg shadow hover:bg-blue-400 font-bold transition-all duration-700"
+            className="px-4 py-2 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-400 mt-5 font-bold transition-all duration-700"
             whileHover={{ scale: 1.1 }}
             transition={{ duration: 0.8 }}
           >

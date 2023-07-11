@@ -4,6 +4,7 @@ import { DataContext } from '@/contexts/data';
 import { useContext } from 'react';
 import HasError from './hasError';
 import Loading from './loading';
+import { ParticlesComponent } from '@/components/Particles';
 
 export default function Home() {
   const { data, hasError, loading } = useContext(DataContext);
@@ -22,6 +23,7 @@ export default function Home() {
 
   return (
     <div>
+      <ParticlesComponent/>
       <div className='font-sans'>
         <main>
           <Cards data={data} />

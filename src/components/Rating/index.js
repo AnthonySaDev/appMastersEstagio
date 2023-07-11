@@ -42,6 +42,7 @@ export default function HalfRating({
         setIsGameFavorited(false);
         setFill(false);
         setValue(0);
+        setTextButton("Save Changes");
       }
     } else {
       await addFavorite(gameId, filteredData, user, setVisible, setIsGameFavorited, value);
@@ -55,8 +56,8 @@ export default function HalfRating({
   };
 
   const buttonVariants = {
-    filled: { scale: 1.2, color: "#ff0000" },
-    unfilled: { scale: 1, color: "#ffffff" },
+    filled: { scale: 1.3, color: "#ff00" },
+    unfilled: { scale: 1, color: "#fff" },
   };
 
   const textButtonVariants = {
@@ -69,8 +70,9 @@ export default function HalfRating({
       initial="hidden"
       animate="visible"
       variants={containerVariants}
-      className="flex items-center justify-center gap-2 w-full mx-auto"
+      className="flex flex-col items-center justify-center w-full mx-auto"
     >
+      <div className="flex items-center justify-center gap-1">
       <Stack spacing={1}>
         <Rating
           name="hover-feedback"
@@ -108,6 +110,7 @@ export default function HalfRating({
           <FaRegHeart size={34} color="white" />
         )}
       </motion.button>
+      </div>
       <motion.button
         onClick={handleFavoriteClick}
         disabled={!fill}
