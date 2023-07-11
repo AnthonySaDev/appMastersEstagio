@@ -25,9 +25,11 @@ export default function Favorites() {
   const [showOptions, setShowOptions] = useState(false);
   const [uniqueRatings, setUniqueRatings] = useState([]);
   const [imageLoaded, setImageLoaded] = useState({});
+  const [userLoading, setUserLoading] = useState(true);
 
   useEffect(() => {
     if (user) {
+      setUserLoading(false);
       const docRef = doc(db, 'favorites', user.uid);
       const unsubscribe = onSnapshot(docRef, (docSnap) => {
         if (docSnap.exists()) {
@@ -41,6 +43,7 @@ export default function Favorites() {
           setUniqueRatings(ratings);
         }
       });
+      
       return unsubscribe;
     }
   }, [user, data, isGameFavorited, favorites]);
@@ -71,16 +74,19 @@ export default function Favorites() {
 
   const funnyMessage = "Oops! Looks like your games are shy. None of them match this rating filter. Try a different one! 😄";
 
-  if (loading) {
+  if (loading || userLoading) {
     return <Loading />;
+  }
+
+  if (!user) {
+    return <FavoriteRedirect />;
   }
 
   if (hasError) {
     return <HasError />;
   }
   return (
-    <>
-    {!user ? <FavoriteRedirect /> : <div className="flex flex-col pb-10 h-fit bg-gradient-to-r text-white">
+    <div className="flex flex-col pb-10 h-fit bg-gradient-to-r text-white">
       <div className="w-10/12 mt-20 md:mt-24 flex flex-col items-center justify-center mx-auto">
         <motion.div
           initial={{ opacity: 0, y: -50 }}
@@ -204,8 +210,6 @@ export default function Favorites() {
           ))
         )}
       </div>
-    </div> }
-    </>
-    
+    </div>
   );
 }
