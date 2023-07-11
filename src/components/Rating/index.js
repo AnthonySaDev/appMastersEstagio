@@ -96,8 +96,8 @@ export default function HalfRating({
       <motion.button
         className="flex items-center bg-transparent text-white font-bold py-5 px-3 rounded text-base"
         onClick={() => {
-            setFill(true) 
-            setTextButton("Save Changes")}}
+            setFill(!fill) 
+           }}
         variants={buttonVariants}
         animate={fill ? "filled" : "unfilled"}
         transition={{ duration: 1.5 }}

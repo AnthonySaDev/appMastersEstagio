@@ -21,15 +21,6 @@ body {
 h1, button, a {
   font-family: 'Ttoctosquares', sans-serif !important;
 }
-.card{
-background: rgba(197, 197, 197, 0.19);
-box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-backdrop-filter: blur(5px);
--webkit-backdrop-filter: blur(5px);
-background-clip: padding-box;
-overflow: hidden;
-
-}
 
 .filter{
 background: rgba(53, 53, 53, 0.24);
@@ -39,7 +30,7 @@ backdrop-filter: blur(6.7px);
 }
 
 .cssbuttons-io-button {
-  background: #ec2ea5;
+  background: #060623;
   color: white;
   font-family: inherit;
   padding: 0.35em;
@@ -68,7 +59,7 @@ backdrop-filter: blur(6.7px);
   height: 2.2em;
   width: 2.2em;
   border-radius: 0.7em;
-  box-shadow: 0.1em 0.1em 0.6em 0.2em #ec2ea5;
+  box-shadow: 0.1em 0.1em 0.6em 0.2em #060623;
   right: 0.3em;
   transition: all 0.3s;
 }
@@ -121,26 +112,60 @@ backdrop-filter: blur(6.7px);
     transform: translateY(0) rotateX(0);
   }
 }
-
-.link-underline {
-  background-color: rgba(249, 249, 249, 0.4);
-  border-radius: 0 0 4px 4px;
-  bottom: -6px;
-  content: "";
-  height: 2px;
-  left: 0;
-  opacity: 0;
-  position: absolute;
-  right: 0;
-  transform-origin: left center;
-  transform: scaleX(0);
-  transition: all 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
-  visibility: hidden;
-  width: auto;
+.card-container {
+  width: 19rem;
+  height: 31rem;
+  position: relative;
+  border-radius: 0.625rem;
+  box-shadow: 0 0.9rem 2.25rem rgba(0, 0, 0, 0.2);
+  overflow: hidden;
 }
 
-.link-underline:hover {
-  opacity: 1;
-  transform: scaleX(1);
-  visibility: visible;
+.card {
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+}
+
+.card .front-content {
+  transition: all 1.5s cubic-bezier(0.23, 1, 0.320, 1);
+}
+
+
+.card .content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  text-align: center;
+  gap: 0.625rem;
+  color: #e8e8e8;
+  padding: 1.25rem;
+  line-height: 1.5;
+  border-radius: 0.3125rem;
+  transform: translateY(96%);
+  transition: all 1s cubic-bezier(0.23, 1, 0.320, 1);
+  box-shadow: 0 0.625rem 0.625rem #D53F8C;
+}
+
+.card .content .heading {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.card:hover .content {
+  transform: translateY(0);
+}
+
+.card:hover .front-content {
+  transform: translateY(-30%);
+}
+
+.card:hover .front-content p {
+  opacity: 0;
 }

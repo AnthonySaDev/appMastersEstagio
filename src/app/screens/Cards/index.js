@@ -60,7 +60,7 @@ const Cards = ({ data }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 2000);
+    }, 2200);
 
     return () => clearTimeout(timer);
   }, []);
@@ -145,7 +145,7 @@ const Cards = ({ data }) => {
         Press the card 😉
       </motion.h1>
       <div>
-        <div className="grid gap-20 justify-center items-center mt-10 w-9/12 mx-auto sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
+        <div className="grid gap-20 justify-center items-center place-items-center mt-10 w-9/12 mx-auto sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
           {isLoading
             ? Array.from({ length: itemsPerPage }).map((_, index) => (
                 <CardSkeleton key={index} />

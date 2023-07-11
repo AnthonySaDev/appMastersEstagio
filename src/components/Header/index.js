@@ -73,7 +73,7 @@ export default function Header() {
               </span>
               {isVisible &&
                 <motion.div 
-                initial={{ y: -200 }}
+                initial={{ y: -400 }}
                 animate={{ y: 0 }}
                 transition={{ duration: 0.5 }}
                 className='absolute text-xl w-full px-2 py-4 bg-black/90'>

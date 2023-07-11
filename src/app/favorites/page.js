@@ -44,6 +44,7 @@ export default function Favorites() {
   const uniqueRatings = Array.from(new Set(favorites.map(game => game.rate))).sort();
 
   const handleSortOrderClick = () => {
+    setRatingFilter(-1)
     setSortOrder(prevOrder => (prevOrder === 'asc' ? 'desc' : 'asc'));
   };
 
