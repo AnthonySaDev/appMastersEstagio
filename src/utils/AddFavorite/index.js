@@ -71,6 +71,5 @@ async function addGameToFavorites(gameId, user, setIsGameFavorited, value) {
     setIsGameFavorited(true);
     toast.success('Game saved successfully.');
   } catch (error) {
-    console.error("Error adding favorite: ", error);
   }
 }

@@ -66,7 +66,7 @@ export const ParticlesComponent = () => {
                 default: "bounce",
               },
               random: false,
-              speed: .5, // Reduzido para tornar as partículas mais lentas
+              speed: .5,
               straight: false,
             },
             number: {
@@ -77,7 +77,7 @@ export const ParticlesComponent = () => {
               value: 80,
             },
             opacity: {
-              value: 0.1, // Reduzido para tornar as partículas mais transparentes
+              value: 0.1,
             },
             shape: {
               type: "circle",

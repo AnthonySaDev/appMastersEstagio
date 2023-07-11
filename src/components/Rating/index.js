@@ -103,7 +103,7 @@ export default function HalfRating({
         variants={buttonVariants}
         animate={fill ? "filled" : "unfilled"}
         transition={{ duration: 1.5 }}
-        disabled={disabled}
+        disabled={isGameFavorited ? true : disabled}
       >
         {fill ? (
           <FaHeart size={34} color="red" />
