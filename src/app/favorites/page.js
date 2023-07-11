@@ -28,10 +28,11 @@ export default function Favorites() {
   const [userLoading, setUserLoading] = useState(true);
 
   useEffect(() => {
+    let unsubscribe;
     if (user) {
-      setUserLoading(false);
+      setUserLoading(true);
       const docRef = doc(db, 'favorites', user.uid);
-      const unsubscribe = onSnapshot(docRef, (docSnap) => {
+      unsubscribe = onSnapshot(docRef, (docSnap) => {
         if (docSnap.exists()) {
           const favoritesData = docSnap.data().favorites;
           const favoritesFromContext = favoritesData.map(fav => ({
@@ -42,15 +43,15 @@ export default function Favorites() {
           const ratings = Array.from(new Set(favoritesFromContext.map(game => game.rate))).sort();
           setUniqueRatings(ratings);
         }
-        else{
-          setUserLoading(false);
-          return <FavoriteRedirect/>
-        }
+        setUserLoading(false);
       });
-      
-      return unsubscribe;
+    } else {
+      setUserLoading(false);
     }
-  }, [user, data, isGameFavorited, favorites]);
+    return () => {
+      if (unsubscribe) unsubscribe();
+    }
+  }, [user, data, isGameFavorited]);
   
   const handleSortOrderClick = () => {
     setRatingFilter(-1)
