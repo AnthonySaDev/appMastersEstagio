@@ -85,7 +85,7 @@ export default function HalfRating({
             setHover(newHover);
           }}
           emptyIcon={<StarBorder style={{ color: "#ccc" }} />}
-          readOnly={readOnly}
+          readOnly={isGameFavorited ? true : readOnly}
         />
         {value !== null && (
           <div>

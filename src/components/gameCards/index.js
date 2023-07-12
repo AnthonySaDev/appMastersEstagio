@@ -28,16 +28,6 @@ export const GameCard = ({ item, filteredData, setVisible }) => {
     visible: { opacity: 1, y: 0 },
   };
 
-  const detailsVariants = {
-    hidden: { opacity: 0, y: 0 },
-    visible: { opacity: 1, y: hovered ? 0 : 30 },
-  };
-
-  const buttonVariants = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1 },
-  };
-
   return (
     <div
       className="relative"
@@ -57,7 +47,7 @@ export const GameCard = ({ item, filteredData, setVisible }) => {
           className="w-full h-full object-fill brightness-150 shadow-2xl"
         />
         <div className="absolute bg-transparent top-0 left-0 w-full h-full">
-          <div className="p-4 flex flex-col justify-between h-full">
+          <div className="p-[0.88rem] flex flex-col justify-between h-full">
             <div className="w-full h-[30%] sm:h-[40%] md:h-[35%] lg:h-[45%] xl:h[50%] 2xl:h-[60%]">
               <motion.img
                 src={item.thumbnail}
@@ -81,7 +71,7 @@ export const GameCard = ({ item, filteredData, setVisible }) => {
                 {item.title}
               </motion.h1>
 
-              <div className="w-full  flex flex-col gap-3 text-zinc-300">
+              <div className="w-full px-2 flex flex-col gap-3 text-zinc-300">
                 <span className="font-semibold pl-3 flex items-center gap-2 text-inherit">
                   <p className="text-white text-lg">Genre: </p>
                   <p className="font-thin text-white">{item.genre}</p>

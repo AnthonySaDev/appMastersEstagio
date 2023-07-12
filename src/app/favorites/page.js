@@ -12,6 +12,7 @@ import { BsSortDown, BsSortUp } from 'react-icons/bs';
 import { IoIosRefresh } from 'react-icons/io';
 import HasError from '../hasError';
 import Loading from './loading';
+import { FavoriteCard } from '@/components/FavoriteCards';
 
 export default function Favorites() {
   const { user } = useContext(AuthContext);
@@ -104,18 +105,9 @@ export default function Favorites() {
               <div>
                 <motion.img
                   src={user.avatarUrl}
-                  width="60"
-                  height="60"
-                  className='object-cover md:hidden rounded-full mx-10'
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ duration: 1 }}
-                />
-                <motion.img
-                  src={user.avatarUrl}
                   width="150"
                   height="150"
-                  className='object-cover md:flex hidden rounded-full mx-10'
+                  className='object-cover lg:flex hidden rounded-full mx-10'
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ duration: 1 }}
@@ -130,7 +122,7 @@ export default function Favorites() {
         <div className='w-full py-10 flex items-center justify-center text-yellow-600 outline-none font-semibold '>
           {uniqueRatings.length > 0 && (
             <div className='text-red-600 mr-3 outline-none'>Rating Filter:
-              <div className='relative ml-3 bg-transparent border-b-2 border-red-600 focus:border-red-600 outline-none' onClick={() => setShowOptions(!showOptions)}>
+              <div className='relative ml-3 bg-transparent border-b-2 border-yeelow-600 focus:border-yellow-500 outline-none' onClick={() => setShowOptions(!showOptions)}>
                 <motion.div
                   className="cursor-pointer"
                   whileHover={{ scale: 1.1 }}
@@ -161,57 +153,18 @@ export default function Favorites() {
         ) : (
         
           filteredFavorites.map((game) => (
-            <motion.div
-              key={game.id}
-              className='flex lg:flex-row filter flex-col text-center items-center gap-2 md:w-7/12 mx-auto h-fit pr-2 my-5'
-              initial={{ opacity: 0, y: -50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1 }}
-            >
-              {!imageLoaded[game.id] && (
-                <div className='w-1/2 flex items-center justify-center text-center'>
-                  <IoIosRefresh className="animate-spin text-red-600 text-4xl" />
-                </div>
-              )}
-              <motion.img
-                src={game.thumbnail}
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ duration: 1 }}
-                onLoad={() => setImageLoaded(prevState => ({...prevState, [game.id]: true}))}
-                className='h-full w-full xl:w-[300px] object-cover'
-              />
-              <div className='py-2 text-center flex items-center justify-center w-fit mx-auto flex-col gap-2'>
-                <motion.h1
-                  className='text-red-600 text-lg'
-                  initial={{ opacity: 0, y: -50 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 1 }}
-                >
-                  {game.title}
-                </motion.h1>
-                <motion.p
-                  initial={{ opacity: 0, y: -50 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 1 }}
-                >
-                  {game.short_description}
-                </motion.p>
-                <HalfRating
-                  isGameFavorited={isGameFavorited}
-                  setIsGameFavorited={setIsGameFavorited}
-                  value={game.rate}
-                  setValue={setValue}
-                  gameId={game.id}
-                  filteredData={favorites}
-                  user={user}
-                  setVisible={setVisible}
-                  readOnly={true}
-                  disabled={true}
-                />
-           
-              </div>
-            </motion.div>
+           <FavoriteCard
+           key={game.id}
+           game={game}
+           isGameFavorited={isGameFavorited}
+           setIsGameFavorited={setIsGameFavorited}
+           setValue={setValue}
+           favorites={favorites}
+           user={user}
+           setVisible={setVisible}
+           imageLoaded={imageLoaded}
+           setImageLoaded={setImageLoaded}
+           />
           ))
         )}
       </div>
