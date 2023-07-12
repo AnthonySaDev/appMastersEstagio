@@ -47,8 +47,8 @@ export const GameCard = ({ item, filteredData, setVisible }) => {
           className="w-full h-full object-fill brightness-150 shadow-2xl"
         />
         <div className="absolute bg-transparent top-0 left-0 w-full h-full">
-          <div className="p-[0.86rem] flex flex-col justify-between h-full">
-            <div className="w-full h-[30%] sm:h-[40%] md:h-[35%] lg:h-[45%] xl:h[50%] 2xl:h-[60%]">
+          <div className="p-[0.86rem] flex flex-col items-center justify-between h-full">
+            <div className="w-full m-auto h-[30%] sm:h-[40%] md:h-[35%] lg:h-[45%] xl:h[50%] 2xl:h-[60%]">
               <motion.img
                 src={item.thumbnail}
                 alt={item.title}
