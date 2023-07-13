@@ -52,7 +52,7 @@
                 <motion.img
                   src={item.thumbnail}
                   alt={item.title}
-                  className="w-full pl-[0.67rem] pr-[0.79rem] pt-[0.95rem] h-full object-cover"
+                  className="w-full pl-[0.68rem] pr-[0.8rem] pt-[0.94rem] h-full object-cover"
                   variants={imageVariants}
                   initial="hidden"
                   animate="visible"
