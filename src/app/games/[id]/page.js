@@ -32,7 +32,7 @@ export default function Games({ params }) {
 
   return (
     <div className="font-sans">
-      <div className="flex h-fit md:h-screen md:max-w-10/12 mx-auto mb:pb-0 bg-transparent flex-col md:flex-col-reverse items-center justify-center">
+      <div className="flex lg:mt-32 h-fit md:h-screen md:max-w-10/12 mx-auto mb:pb-0 bg-transparent flex-col md:flex-col-reverse items-center justify-center">
 
         {filteredData.map((item) => (
           <div
