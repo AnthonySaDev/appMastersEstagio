@@ -48,11 +48,11 @@
           />
           <div className="absolute bg-transparent top-0 left-0 w-full h-full">
             <div className="flex flex-col justify-between h-full">
-              <div className="w-full flex items-center justify-center h-[30%] sm:h-[40%] md:h-[35%] lg:h-[45%] xl:h[50%] 2xl:h-[60%]">
+              <div className="w-full flex items-center justify-center h-[35%] sm:h-[40%] md:h-[42%] lg:h-[45%] xl:h[50%] 2xl:h-[60%]">
                 <motion.img
                   src={item.thumbnail}
                   alt={item.title}
-                  className="w-full pl-[0.65rem] pr-[0.77rem] pt-[0.95rem] h-full object-cover"
+                  className="w-full pl-[0.66rem] pr-[0.78rem] pt-[0.95rem] h-full object-cover"
                   variants={imageVariants}
                   initial="hidden"
                   animate="visible"
